@@ -5,510 +5,423 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Wedding of Farid & Hanisa</title>
     
-    <!-- Premium Web Fonts -->
+    <!-- Premium Fonts Integration -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Amiri&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --rose-brown: #A87070;
-            --burgundy: #4A1521;
-            --gold: #D4AF37;
-            --light-gold: #F3E5AB;
-            --bg-paper: #FDFBF9;
-            --text-dark: #2C1A1D;
+            --rose-brown: #704242;
+            --rose-light: #9E6B6B;
+            --gold-foil: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
+            --white: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Montserrat', sans-serif;
-            color: var(--text-dark);
-            background-color: #1a060a;
+            background-color: #1a0f0f;
+            color: var(--white);
             overflow-x: hidden;
         }
 
-        /* Container Mobile-First Utama */
-        .main-wrapper {
-            max-width: 450px;
-            margin: 0 auto;
-            background-color: var(--bg-paper);
-            min-height: 100vh;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.6);
-            background-image: radial-gradient(rgba(168, 112, 112, 0.05) 1px, transparent 0);
-            background-size: 24px 24px;
-        }
-
-        /* Layar Cover Tirai Depan */
-        #cover-page {
+        /* Canvas untuk Animasi Bulu */
+        #featherCanvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, var(--burgundy), var(--rose-brown));
-            z-index: 2000;
+            pointer-events: none;
+            z-index: 99;
+            display: none;
+        }
+
+        /* Efek Pop-Up Dramatis via Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Cover Layar Penuh */
+        #cover {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #4a2828 0%, var(--rose-brown) 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: #fff;
-            text-align: center;
+            z-index: 1000;
             padding: 30px;
-            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
+            text-align: center;
+            transition: transform 1s cubic-bezier(0.82, 0.01, 0.77, 1);
+            border: 15px solid transparent;
+            border-image: var(--gold-foil) 15;
         }
+        #cover.hidden { transform: translateY(-100%); }
 
-        #cover-page.dismissed {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .cover-opening-text {
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .cover-text {
+            font-size: 1rem;
             line-height: 1.8;
-            margin-bottom: 40px;
-            max-width: 85%;
+            max-width: 400px;
+            margin-bottom: 30px;
             font-weight: 300;
         }
 
-        /* Desain Struktur Visual Lilin Segel (Wax Seal) */
-        .wax-seal-wrapper {
+        /* Container Utama Mobile-First */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: radial-gradient(circle at 50% 50%, var(--rose-light) 0%, var(--rose-brown) 100%);
+            min-height: 100vh;
+            padding: 40px 25px;
             position: relative;
-            width: 100px;
-            height: 100px;
-            margin-bottom: 30px;
-            cursor: pointer;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-image: var(--gold-foil) 6;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
-        .wax-seal {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #5a1a29 0%, #3a0d16 100%);
-            border-radius: 52% 48% 55% 45% / 48% 54% 46% 52%; /* Bentuk organik tidak beraturan */
-            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.2), 4px 8px 15px rgba(0,0,0,0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px solid var(--burgundy);
-        }
-
-        .wax-seal::after {
-            content: '';
+        /* Bingkai Ornamen Dalam */
+        .inner-frame {
             position: absolute;
-            width: 80%;
-            height: 80%;
-            border: 1px dashed var(--gold);
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-
-        .wax-seal-initials {
-            font-family: 'Cinzel', serif;
-            font-size: 1.8rem;
-            color: var(--gold);
-            text-shadow: -1px -1px 1px rgba(0,0,0,0.8), 1px 1px 1px rgba(255,255,255,0.2);
-            font-weight: 700;
-        }
-
-        .btn-open-invitation {
-            background: transparent;
-            border: 1px solid var(--gold);
-            color: var(--light-gold);
-            padding: 12px 35px;
-            font-family: 'Cinzel', serif;
-            font-size: 0.8rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-color: rgba(74, 21, 33, 0.4);
-        }
-
-        .btn-open-invitation:hover {
-            background-color: var(--gold);
-            color: var(--burgundy);
-            box-shadow: 0 0 15px var(--gold);
-        }
-
-        /* Animasi Efek Hujan Bulu (Feather Particle Canvas) */
-        #feather-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 15px;
+            border: 1px solid transparent;
+            border-image: var(--gold-foil) 1;
             pointer-events: none;
-            z-index: 1500;
-            display: none;
+            opacity: 0.5;
         }
 
-        /* Pengontrol Audio Terapung */
-        #audio-controller {
-            position: fixed;
-            bottom: 25px;
-            right: calc(50% - 200px);
-            z-index: 1600;
-            background: var(--burgundy);
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 450px) { #audio-controller { right: 20px; } }
-
-        /* Struktur Konten Internal */
         section {
-            padding: 60px 30px;
-            text-align: center;
             position: relative;
+            margin-bottom: 70px;
+            text-align: center;
+            z-index: 2;
         }
 
-        /* Efek Gulir Teks Dramatis */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
-        }
-
-        .reveal-on-scroll.activated {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Desain Tipografi */
-        h2 {
-            font-family: 'Cinzel', serif;
-            color: var(--burgundy);
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            margin-bottom: 25px;
-        }
-
-        .script-calligraphy {
+        /* Gaya Tipografi */
+        .script-name {
             font-family: 'Great Vibes', cursive;
             font-size: 3.2rem;
-            color: var(--rose-brown);
-            margin: 15px 0;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+            background: var(--gold-foil);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 10px 0;
         }
 
-        .quran-verse-arabic {
-            font-family: 'Times New Roman', serif;
-            font-size: 1.5rem;
-            direction: rtl;
-            line-height: 2.3;
-            color: var(--burgundy);
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .quran-verse-translation {
-            font-size: 0.85rem;
-            font-style: italic;
-            line-height: 1.8;
-            color: #555;
-        }
-
-        /* Layout Kartu & Frame Foto */
-        .photo-space-frame {
-            width: 100%;
-            height: 280px;
-            background-color: #eee;
-            border: 8px solid #fff;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            margin: 30px 0;
-            border-radius: 4px;
-            background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%);
-            background-size: 20px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #aaa;
-            font-size: 0.8rem;
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .details-card {
-            background: #fff;
-            border: 1px solid rgba(168, 112, 112, 0.2);
-            border-radius: 20px;
-            padding: 35px 25px;
-            box-shadow: 0 10px 30px rgba(74, 21, 33, 0.03);
-            margin-top: 20px;
-        }
-
-        .icon-container {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 20px;
-            background-color: rgba(168, 112, 112, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: var(--burgundy);
-            font-weight: bold;
             font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #f7e1b5;
         }
 
-        .btn-action-link {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--burgundy), var(--rose-brown));
-            color: #fff;
+        .arabic {
+            font-family: 'Amiri', serif;
+            font-size: 1.6rem;
+            line-height: 2.5;
+            direction: rtl;
+            margin: 20px 0;
+            color: #fbe6c2;
+        }
+
+        /* Slot Foto Berdampingan/Symmetric */
+        .photo-container {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            justify-content: center;
+        }
+        .photo-slot {
+            width: 140px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-image: var(--gold-foil) 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: #ddd;
+            text-transform: uppercase;
+        }
+
+        /* Kartu Informasi & Tombol */
+        .card {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 25px;
+            border-radius: 4px;
+            border: 1px solid rgba(252, 246, 186, 0.2);
+            margin-top: 15px;
+        }
+
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--gold-foil);
+            color: #331a1a;
             padding: 12px 30px;
             text-decoration: none;
-            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
             font-size: 0.85rem;
-            font-weight: 600;
             letter-spacing: 1px;
-            margin-top: 20px;
-            box-shadow: 0 5px 15px rgba(74, 21, 33, 0.2);
-            transition: transform 0.3s;
-        }
-
-        .btn-action-link:hover { transform: translateY(-2px); }
-
-        .bank-info-box {
-            background-color: rgba(168, 112, 112, 0.05);
-            border: 1px dashed var(--rose-brown);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .btn-copy-data {
-            background: transparent;
-            border: 1px solid var(--burgundy);
-            color: var(--burgundy);
-            padding: 6px 15px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            border: none;
             cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+        .btn-gold:hover { transform: scale(1.03); }
+
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: #f7e1b5;
+            margin-bottom: 8px;
+        }
+
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid #BF953F;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- File Media Musik Murottal Mandiri -->
-    <audio id="murottal-player" loop>
-        <source src="MASUKKAN_LINK_URL_FILE_AUDIO_DISINI.mp3" type="audio/mpeg">
+    <!-- Sumber Audio Murottal -->
+    <audio id="murottal" loop>
+        <source src="URL_FILE_MUROTTAL_ANDA_DI_SINI.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- Kanvas Efek Hujan Bulu (Feather Drop) -->
-    <canvas id="feather-canvas"></canvas>
+    <!-- Canvas Animasi Hujan Bulu -->
+    <canvas id="featherCanvas"></canvas>
 
-    <!-- Tombol Pengontrol Audio Floating -->
-    <button id="audio-controller" onclick="toggleAudioControl()">MUTE</button>
+    <!-- Halaman Pembuka / Cover -->
+    <div id="cover">
+        <p class="cover-text">Assalamu’alaikum Warahmatullahi Wabarakatuh. Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
+        <button class="btn-gold" onclick="bukaUndangan()">
+            <svg class="icon-svg" style="fill:#331a1a; margin:0;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            Buka Undangan
+        </button>
+    </div>
 
-    <div class="main-wrapper">
-        
-        <!-- Halaman Gerbang Cover Terdepan -->
-        <div id="cover-page">
-            <div class="cover-opening-text">
-                Assalamu’alaikum Warahmatullahi Wabarakatuh.<br><br>
-                Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...
-            </div>
-            
-            <div class="wax-seal-wrapper" onclick="executeOpenInvitation()">
-                <div class="wax-seal">
-                    <span class="wax-seal-initials">F&H</span>
-                </div>
-            </div>
-            
-            <button class="btn-open-invitation" onclick="executeOpenInvitation()">Buka Undangan</button>
-        </div>
+    <!-- Konten Utama Rumah Undangan -->
+    <div class="container">
+        <div class="inner-frame"></div>
 
-        <!-- Bagian 1: Teks Ayat Suci Al-Quran -->
-        <section class="reveal-on-scroll">
-            <div class="quran-verse-arabic">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً ۗاِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ Lِّقَوْمٍ يَّتَفَكَّرُوْ</div>
-            <div class="quran-verse-translation">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir." <br>(QS. Ar-Rum: 21)</div>
+        <!-- Ayat Al-Qur'an -->
+        <section class="reveal">
+            <h2>Surah Ar-Rum 21</h2>
+            <div class="arabic">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا lِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً ۗاِنَّ فِيْ ذٰلِكَ لَاٰيٰtٍ lِّقَوْمٍ يَّتَفَكَّرُوْ</div>
+            <p style="font-size: 0.85rem; line-height: 1.6; color: #f0dfdf; text-align: justify;">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."</p>
         </section>
 
-        <!-- Slot Foto Pertama -->
-        <section class="reveal-on-scroll">
-            <div class="photo-space-frame">Ruang Foto Mempelai 1</div>
-        </section>
-
-        <!-- Bagian 2: Profil Identitas Mempelai -->
-        <section class="reveal-on-scroll">
+        <!-- Profil Mempelai -->
+        <section class="reveal">
             <h2>Mempelai Pernikahan</h2>
             
-            <div style="margin-bottom: 30px;">
-                <div class="script-calligraphy">M Farid Maulana</div>
-                <p style="font-size: 0.9rem; color: #555;">Putra dari Bapak Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
-            </div>
-            
-            <div style="font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold); margin: 20px 0;">Dengan</div>
-            
-            <div>
-                <div class="script-calligraphy">Hanisa Awaliyah</div>
-                <p style="font-size: 0.9rem; color: #555;">Putri dari Bapak Engkus Muhidin & Ibu Hilasari</p>
-            </div>
-        </section>
-
-        <!-- Slot Foto Kedua -->
-        <section class="reveal-on-scroll">
-            <div class="photo-space-frame">Ruang Foto Mempelai 2</div>
-        </section>
-
-        <!-- Bagian 3: Detail Logistik Waktu & Lokasi -->
-        <section class="reveal-on-scroll">
-            <h2>Pelaksanaan Acara</h2>
-            
-            <div class="details-card">
-                <div class="icon-container">📅</div>
-                <h3>Waktu Utama</h3>
-                <p style="margin-top: 10px; font-weight: 600;">Sabtu, 29 Agustus 2026</p>
-                <p style="font-size: 0.9rem; color: #555;">Pukul: 09:00 - 17:00 WIB s.d Selesai</p>
+            <div style="margin-top: 20px;">
+                <div class="script-name">M Farid Maulana</div>
+                <p style="font-size: 0.9rem;">Putra dari: <br><strong>Bapak Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</strong></p>
             </div>
 
-            <div class="details-card">
-                <div class="icon-container">📍</div>
-                <h3>Lokasi Maslahat</h3>
-                <p style="font-size: 0.9rem; line-height: 1.6; margin-top: 10px; color: #444;">Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361</p>
-                <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-action-link">Buka Google Maps</a>
+            <!-- Tempat Foto 1 & 2 -->
+            <div class="photo-container">
+                <div class="photo-slot">Foto Farid</div>
+                <div class="photo-slot">Foto Hanisa</div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <div class="script-name">Hanisa Awaliyah Muhidin</div>
+                <p style="font-size: 0.9rem;">Putri dari: <br><strong>Bapak Engkus Muhidin & Ibu Hilasari</strong></p>
             </div>
         </section>
 
-        <!-- Bagian 4: Santunan Digital Gift -->
-        <section class="reveal-on-scroll">
+        <!-- Detail Waktu & Lokasi -->
+        <section class="reveal">
+            <h2>Waktu & Lokasi</h2>
+            <div class="card">
+                <!-- Icon Waktu (Clock) -->
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
+                <p style="font-weight: 600; font-size: 1.1rem; color: #f7e1b5;">Sabtu, 29 Agustus 2026</p>
+                <p style="font-size: 0.9rem; margin-bottom: 20px;">Akad: 09:00 - 17:00 WIB Selesai</p>
+                
+                <div style="border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;"></div>
+
+                <!-- Icon Lokasi (Pin) -->
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-130-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+                <p style="font-size: 0.85rem; line-height: 1.6; padding: 0 10px;">Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361</p>
+                
+                <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-gold" style="margin-top: 20px;">Buka Google Maps</a>
+            </div>
+        </section>
+
+        <!-- Adab Walimah Syar'i -->
+        <section class="reveal">
+            <h2>Adab Makan & Walimah</h2>
+            <div class="card" style="text-align: left;">
+                <!-- Icon Penjelasan (Book/Info) -->
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                </div>
+                <p style="font-size: 0.85rem; line-height: 1.8; color: #f0dfdf;">
+                    Tanpa mengurangi rasa hormat, demi menjaga keberkahan dan kenyamanan syariat walimatul 'ursy, kami menghimbau para tamu undangan untuk memperhatikan adab sebagai berikut:
+                </p>
+                <ul style="font-size: 0.85rem; margin-top: 10px; margin-left: 20px; line-height: 1.8; color: #f7e1b5;">
+                    <li>Menutup aurat secara sempurna dengan busana muslim/muslimah sopan.</li>
+                    <li>Makan dan minum sembari duduk (tidak *standing party*).</li>
+                    <li>Menggunakan tangan kanan saat mengambil hidangan.</li>
+                    <li>Menjaga pandangan dan mengutamakan salam khidmat tanpa bersentuhan fisik antar non-mahram.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Keuangan / Digital Gift -->
+        <section class="reveal">
             <h2>Digital Gift</h2>
-            <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">Tanda kasih asimilasi cashless tanpa mengurangi esensi keberkahan:</p>
-            
-            <div class="bank-info-box">
-                <p style="font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;">BANK SYARIAH INDONESIA (BSI)</p>
-                <p id="account-number" style="font-size: 1.4rem; font-weight: 700; color: var(--burgundy); margin: 8px 0;">1060822537</p>
-                <p style="font-size: 0.85rem; color: #555;">a.n. M Farid Maulana</p>
-                <button class="btn-copy-data" onclick="copyAccountNumberData()">Salin No. Rekening</button>
+            <div class="card">
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Tanda kasih Anda dapat ditransfer secara aman melalui rekening berikut:</p>
+                <p style="font-weight: 300; letter-spacing: 1px;">Bank Syariah Indonesia (BSI)</p>
+                <p id="norek" style="font-size: 1.5rem; font-weight: 600; margin: 10px 0; color: #f7e1b5; letter-spacing: 2px;">1060822537</p>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">a.n. M Farid Maulana</p>
+                <button class="btn-gold" onclick="salinNorek()">Salin Nomor Rekening</button>
             </div>
         </section>
-
-        <footer style="text-align: center; padding: 30px; font-size: 0.75rem; color: #999; letter-spacing: 1px;">
-            &copy; 2026 Farid & Hanisa Wedding. Built via GitHub.
-        </footer>
 
     </div>
 
-    <!-- Logika Fungsi Interaktif JavaScript -->
+    <!-- Tombol Kendali Musik Terapung -->
+    <button id="music-control" onclick="toggleMusik()">🔊</button>
+
     <script>
-        // Logika Aktivasi Efek Teks Memudar Saat Gulir Layar (Scroll Reveal Engine)
-        const scrollTracker = new IntersectionObserver((entries) => {
+        // Logika Trigger Animasi Kemunculan Saat Scroll (Pop-up Observers)
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if(entry.isIntersecting) {
-                    entry.target.classList.add('activated');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15 });
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.reveal-on-scroll').forEach((el) => scrollTracker.observe(el));
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
 
-        // Eksekusi Pembukaan Utama Undangan
-        function executeOpenInvitation() {
-            document.getElementById('cover-page').classList.add('dismissed');
-            document.getElementById('audio-controller').style.display = 'flex';
+        // Prosedur Eksekusi Tombol Buka Undangan
+        function bukaUndangan() {
+            document.getElementById('cover').classList.add('hidden');
+            document.getElementById('music-control').style.display = 'block';
             
-            // Sistem Audio Player Trigger
-            const player = document.getElementById('murottal-player');
-            player.play().catch(err => console.log("Interaksi autoplay diblokir browser, audio dimatikan default."));
+            // Jalankan Fitur Audio
+            const audio = document.getElementById('murottal');
+            audio.play().catch(e => console.log("Autoplay dicegah browser, musik butuh interaksi fisik manual."));
             
-            // Inisialisasi Efek Hujan Bulu (Feather Drop Engine)
-            document.getElementById('feather-canvas').style.display = 'block';
-            initFeatherParticleEngine();
+            // Aktifkan Canvas Hujan Bulu
+            document.getElementById('featherCanvas').style.display = 'block';
+            initFeatherRain();
         }
 
-        // Pengendali Mekanisme Tombol Audio Mute/Unmute
-        function toggleAudioControl() {
-            const player = document.getElementById('murottal-player');
-            const btn = document.getElementById('audio-controller');
-            if(player.paused) {
-                player.play();
-                btn.innerText = "MUTE";
-                btn.style.background = "#4A1521";
+        function toggleMusik() {
+            const audio = document.getElementById('murottal');
+            const btn = document.getElementById('music-control');
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "🔊";
             } else {
-                player.pause();
-                btn.innerText = "PLAY";
-                btn.style.background = "#A87070";
+                audio.pause();
+                btn.innerText = "🔇";
             }
         }
 
-        // Fungsi Salin Rekening
-        function copyAccountNumberData() {
-            const num = document.getElementById('account-number').innerText;
-            navigator.clipboard.writeText(num).then(() => {
-                alert('Nomor rekening BSI berhasil disalin!');
+        function salinNorek() {
+            const text = document.getElementById('norek').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Nomor rekening BSI berhasil disalin!");
             });
         }
 
-        // Mesin Simulasi Fisika Hujan Bulu (Feather Fall Particle System Canvas)
-        function initFeatherParticleEngine() {
-            const canvas = document.getElementById('feather-canvas');
+        // Engine JavaScript: Animasi Bulu Merah Muda Jatuh (Pink Feather Rain)
+        function initFeatherRain() {
+            const canvas = document.getElementById('featherCanvas');
             const ctx = canvas.getContext('2d');
             
-            let width = canvas.width = window.innerWidth;
-            let height = canvas.height = window.innerHeight;
+            let w = canvas.width = window.innerWidth;
+            let h = canvas.height = window.innerHeight;
             
-            window.addEventListener('resize', () => {
-                width = canvas.width = window.innerWidth;
-                height = canvas.height = window.innerHeight;
-            });
-
-            const maxFeathers = 25;
-            const feathersArray = [];
-
-            for(let i=0; i<maxFeathers; i++) {
-                feathersArray.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height - height,
-                    r: Math.random() * 4 + 2, // Ukuran partikel bulu
-                    d: Math.random() * maxFeathers,
-                    speed: Math.random() * 1 + 0.5,
-                    swing: Math.random() * 2
+            const numFeathers = 25;
+            const feathers = [];
+            
+            for(let i=0; i<numFeathers; i++) {
+                feathers.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h - h,
+                    r: Math.random() * 4 + 2, // ukuran lingkaran partikel menyerupai bulu halus halus
+                    d: Math.random() * numFeathers,
+                    speedY: Math.random() * 1 + 0.5,
+                    speedX: Math.random() * 1 - 0.5
                 });
             }
-
-            function drawParticles() {
-                ctx.clearRect(0, 0, width, height);
-                ctx.fillStyle = 'rgba(244, 192, 192, 0.6)'; // Warna pink kelopak/bulu transparan
+            
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = 'rgba(255, 182, 193, 0.4)'; // Warna Pink Bulu Halus Transparan
                 ctx.beginPath();
-                
-                for(let i=0; i<maxFeathers; i++) {
-                    const f = feathersArray[i];
+                for(let i=0; i<numFeathers; i++) {
+                    const f = feathers[i];
                     ctx.moveTo(f.x, f.y);
-                    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+                    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
+                }
+                ctx.fill();
+                update();
+            }
+            
+            function update() {
+                for(let i=0; i<numFeathers; i++) {
+                    const f = feathers[i];
+                    f.y += f.speedY;
+                    f.x += Math.sin(f.d) * 0.5 + f.speedX;
                     
-                    // Logika Pergerakan Jatuh Mengayun
-                    f.y += f.speed;
-                    f.x += Math.sin(f.y / 30) * f.swing;
-                    
-                    if(f.y > height) {
-                        feathersArray[i] = {
-                            x: Math.random() * width,
-                            y: -10,
+                    // Reset partikel jika keluar layar bawah/samping
+                    if(f.y > h || f.x > w || f.x < 0) {
+                        feathers[i] = {
+                            x: Math.random() * w,
+                            y: -20,
                             r: f.r,
                             d: f.d,
-                            speed: f.speed,
-                            swing: f.swing
+                            speedY: f.speedY,
+                            speedX: f.speedX
                         };
                     }
                 }
-                ctx.fill();
-                requestAnimationFrame(drawParticles);
             }
-            drawParticles();
+            
+            setInterval(draw, 20);
+            
+            window.addEventListener('resize', () => {
+                w = canvas.width = window.innerWidth;
+                h = canvas.height = window.innerHeight;
+            });
         }
     </script>
 </body>
