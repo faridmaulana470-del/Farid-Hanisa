@@ -5,439 +5,510 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Wedding of Farid & Hanisa</title>
     
-    <!-- Google Fonts: Premium Typography -->
+    <!-- Premium Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400& Amiri&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --rose-brown: #A87C7C;
-            --rose-light: #E2BFB3;
-            --burgundy: #561C24;
-            --earth-dark: #3E2723;
-            --white: #FFFDFB;
-            --pink-feather: rgba(244, 143, 177, 0.6);
+            --rose-brown: #A87070;
+            --burgundy: #4A1521;
+            --gold: #D4AF37;
+            --light-gold: #F3E5AB;
+            --bg-paper: #FDFBF9;
+            --text-dark: #2C1A1D;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        
         body {
             font-family: 'Montserrat', sans-serif;
-            color: var(--earth-dark);
-            background-color: var(--rose-brown);
-            /* Simulasi Tekstur Watercolor Paper via CSS Gradients */
-            background-image: 
-                radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, transparent 80%),
-                linear-gradient(rgba(0,0,0,0.02) 1px, transparent 0),
-                linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 0);
-            background-size: auto, 4px 4px, 4px 4px;
+            color: var(--text-dark);
+            background-color: #1a060a;
             overflow-x: hidden;
-            line-height: 1.8;
         }
 
-        /* --- ELEMEN ANIMASI DRAMATIS (SCROLL REVEAL) --- */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        /* Container Mobile-First Utama */
+        .main-wrapper {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: var(--bg-paper);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.6);
+            background-image: radial-gradient(rgba(168, 112, 112, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
         }
 
-        /* --- INTRO COVER OVERLAY --- */
-        #cover-overlay {
+        /* Layar Cover Tirai Depan */
+        #cover-page {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(135deg, var(--burgundy), var(--rose-brown));
-            z-index: 9999;
+            z-index: 2000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
+            color: #fff;
             text-align: center;
-            color: var(--white);
-            transition: transform 1.5s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s ease;
+            padding: 30px;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1), opacity 1s ease;
         }
-        #cover-overlay.dismissed {
+
+        #cover-page.dismissed {
             transform: translateY(-100%);
             opacity: 0;
             pointer-events: none;
         }
-        #cover-overlay h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            font-weight: 300;
-            letter-spacing: 1px;
-        }
-        #cover-overlay p {
-            max-width: 400px;
-            font-size: 0.95rem;
-            font-weight: 300;
-            line-height: 1.6;
-            margin-bottom: 35px;
-        }
-        .btn-open {
-            background: transparent;
-            border: 1px solid var(--white);
-            color: var(--white);
-            padding: 14px 36px;
-            font-size: 0.85rem;
-            letter-spacing: 3px;
+
+        .cover-opening-text {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.4s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
-        .btn-open:hover {
-            background: var(--white);
-            color: var(--burgundy);
-        }
-
-        /* --- CANVAS PARTIKEL (FEATHER RAIN) --- */
-        #particle-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 99;
-            pointer-events: none;
-            display: none;
-        }
-
-        /* --- UTAMA CONTAINER (MOBILE FIRST) --- */
-        .main-wrapper {
-            max-width: 480px;
-            margin: 0 auto;
-            background: var(--white);
-            position: relative;
-            z-index: 10;
-            box-shadow: 0 0 40px rgba(0,0,0,0.15);
-            border-left: 1px solid rgba(226, 191, 179, 0.3);
-            border-right: 1px solid rgba(226, 191, 179, 0.3);
-        }
-
-        /* Ornamen Bingkai Botanikal Estetis */
-        .section-frame {
-            padding: 70px 30px;
-            position: relative;
-            text-align: center;
-        }
-        .section-frame::before {
-            content: '';
-            position: absolute;
-            inset: 20px;
-            border: 1px solid var(--rose-light);
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
-        /* --- AYAT QURAN SECTION --- */
-        .quran-text {
-            font-family: 'Amiri', serif;
-            font-size: 1.6rem;
-            color: var(--burgundy);
-            direction: rtl;
-            line-height: 2.3;
-            margin-bottom: 20px;
-        }
-        .quran-translation {
-            font-size: 0.85rem;
-            color: #555;
-            font-style: italic;
-            line-height: 1.7;
-        }
-
-        /* --- MEMPELAI SECTION --- */
-        .mempelai-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
-            color: var(--burgundy);
-            margin: 15px 0 5px 0;
-        }
-        .parents-info {
-            font-size: 0.85rem;
-            color: #666;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            max-width: 85%;
             font-weight: 300;
         }
 
-        /* --- FOTO TEMPAT DATA (2 SPACE) --- */
-        .photo-container {
+        /* Desain Struktur Visual Lilin Segel (Wax Seal) */
+        .wax-seal-wrapper {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 30px;
+            cursor: pointer;
+        }
+
+        .wax-seal {
             width: 100%;
-            height: 280px;
-            background: #F3EAE7;
-            margin: 25px 0;
-            border-radius: 4px;
-            border: 1px solid var(--rose-light);
+            height: 100%;
+            background: radial-gradient(circle, #5a1a29 0%, #3a0d16 100%);
+            border-radius: 52% 48% 55% 45% / 48% 54% 46% 52%; /* Bentuk organik tidak beraturan */
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.2), 4px 8px 15px rgba(0,0,0,0.4);
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.8rem;
-            color: var(--rose-brown);
-            letter-spacing: 1px;
-            background-size: cover;
-            background-position: center;
+            border: 2px solid var(--burgundy);
         }
 
-        /* --- DATA ACARA & ADAB --- */
-        .card-event {
-            background: #FAF5F3;
-            border-radius: 8px;
-            padding: 25px;
-            margin-top: 20px;
-            border: 1px solid rgba(168, 124, 124, 0.15);
+        .wax-seal::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 1px dashed var(--gold);
+            border-radius: 50%;
+            opacity: 0.4;
         }
-        .icon-box {
+
+        .wax-seal-initials {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-shadow: -1px -1px 1px rgba(0,0,0,0.8), 1px 1px 1px rgba(255,255,255,0.2);
+            font-weight: 700;
+        }
+
+        .btn-open-invitation {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--light-gold);
+            padding: 12px 35px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: rgba(74, 21, 33, 0.4);
+        }
+
+        .btn-open-invitation:hover {
+            background-color: var(--gold);
+            color: var(--burgundy);
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* Animasi Efek Hujan Bulu (Feather Particle Canvas) */
+        #feather-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1500;
+            display: none;
+        }
+
+        /* Pengontrol Audio Terapung */
+        #audio-controller {
+            position: fixed;
+            bottom: 25px;
+            right: calc(50% - 200px);
+            z-index: 1600;
+            background: var(--burgundy);
+            border: 2px solid var(--gold);
+            color: var(--gold);
             width: 45px;
             height: 45px;
-            margin: 0 auto 15px auto;
-            fill: var(--burgundy);
-        }
-        .btn-maps {
-            display: inline-block;
-            margin-top: 20px;
-            background: var(--burgundy);
-            color: var(--white);
-            padding: 10px 24px;
-            font-size: 0.8rem;
-            text-decoration: none;
-            border-radius: 4px;
-            letter-spacing: 1px;
-        }
-        .adab-list {
-            text-align: left;
-            margin-top: 15px;
-            font-size: 0.85rem;
-        }
-        .adab-item {
-            display: flex;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            justify-content: center;
             align-items: center;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .adab-item svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--rose-brown);
-            margin-right: 10px;
-            flex-shrink: 0;
+        @media (max-width: 450px) { #audio-controller { right: 20px; } }
+
+        /* Struktur Konten Internal */
+        section {
+            padding: 60px 30px;
+            text-align: center;
+            position: relative;
         }
 
-        /* --- DIGITAL GIFT --- */
-        .gift-box {
+        /* Efek Gulir Teks Dramatis */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
+        }
+
+        .reveal-on-scroll.activated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Desain Tipografi */
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--burgundy);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+        }
+
+        .script-calligraphy {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2rem;
+            color: var(--rose-brown);
+            margin: 15px 0;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.05);
+        }
+
+        .quran-verse-arabic {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.5rem;
+            direction: rtl;
+            line-height: 2.3;
+            color: var(--burgundy);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .quran-verse-translation {
+            font-size: 0.85rem;
+            font-style: italic;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        /* Layout Kartu & Frame Foto */
+        .photo-space-frame {
+            width: 100%;
+            height: 280px;
+            background-color: #eee;
+            border: 8px solid #fff;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 30px 0;
+            border-radius: 4px;
+            background-image: linear-gradient(45deg, #e0e0e0 25%, transparent 25%), linear-gradient(-45deg, #e0e0e0 25%, transparent 25%);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #aaa;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .details-card {
+            background: #fff;
+            border: 1px solid rgba(168, 112, 112, 0.2);
+            border-radius: 20px;
+            padding: 35px 25px;
+            box-shadow: 0 10px 30px rgba(74, 21, 33, 0.03);
+            margin-top: 20px;
+        }
+
+        .icon-container {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 20px;
+            background-color: rgba(168, 112, 112, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--burgundy);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .btn-action-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--burgundy), var(--rose-brown));
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(74, 21, 33, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .btn-action-link:hover { transform: translateY(-2px); }
+
+        .bank-info-box {
+            background-color: rgba(168, 112, 112, 0.05);
             border: 1px dashed var(--rose-brown);
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 6px;
-            margin-top: 15px;
-            background: #FFF;
+            margin-top: 20px;
+        }
+
+        .btn-copy-data {
+            background: transparent;
+            border: 1px solid var(--burgundy);
+            color: var(--burgundy);
+            padding: 6px 15px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- ELEMENT AUDIO (Murottal) -->
+    <!-- File Media Musik Murottal Mandiri -->
     <audio id="murottal-player" loop>
-        <source src="URL_FILE_MUSIK_ATAU_MUROTTAL_ANDA_DISINI.mp3" type="audio/mpeg">
+        <source src="MASUKKAN_LINK_URL_FILE_AUDIO_DISINI.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- CANVAS ANIMASI HUJAN FEATHER -->
-    <canvas id="particle-canvas"></canvas>
+    <!-- Kanvas Efek Hujan Bulu (Feather Drop) -->
+    <canvas id="feather-canvas"></canvas>
 
-    <!-- INTERFACE COVER (PENGHALANG UTAMA) -->
-    <div id="cover-overlay">
-        <h2>Assalamu’alaikum Warahmatullahi Wabarakatuh.</h2>
-        <p>Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
-        <button class="btn-open" onclick="initiateWeddingExperience()">Buka Undangan</button>
-    </div>
+    <!-- Tombol Pengontrol Audio Floating -->
+    <button id="audio-controller" onclick="toggleAudioControl()">MUTE</button>
 
-    <!-- MAIN APP STRUCTURE -->
     <div class="main-wrapper">
         
-        <!-- SEKSI 1: AYAT AL-QURAN -->
-        <section class="section-frame reveal">
-            <div class="quran-text">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَل+َ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً ۗاِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ لِّقَوْمٍ يَّتَفَكَّرُوْ</div>
-            <div class="quran-translation">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir." (QS. Ar-Rum: 21)</div>
-        </section>
-
-        <!-- SEKSI 2: PROFIL MEMPELAI -->
-        <section class="section-frame reveal">
-            <!-- FOTO SPACE 1 -->
-            <div class="photo-container" style="background-image: url('URL_FOTO_MEMPELAI_PRIA_DISINI.jpg');">[ FOTO MEMPELAI PRIA ]</div>
-            
-            <h2 class="mempelai-title">M Farid Maulana</h2>
-            <p class="parents-info">Putra dari Bapak Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
-            
-            <div style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--rose-brown); margin: 25px 0;">&</div>
-
-            <!-- FOTO SPACE 2 -->
-            <div class="photo-container" style="background-image: url('URL_FOTO_MEMPELAI_WANITA_DISINI.jpg');">[ FOTO MEMPELAI WANITA ]</div>
-
-            <h2 class="mempelai-title">Hanisa Awaliyah Muhidin</h2>
-            <p class="parents-info">Putri dari Bapak Engkus Muhidin & Ibu Hilasari</p>
-        </section>
-
-        <!-- SEKSI 3: DETAIL ACARA -->
-        <section class="section-frame reveal">
-            <h2>Detail Agenda Acara</h2>
-            
-            <div class="card-event">
-                <!-- Icon Waktu -->
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg>
-                </div>
-                <h3 style="font-family:'Playfair Display'; margin-bottom:5px;">Waktu Pelaksanaan</h3>
-                <p><strong>Sabtu, 29 Agustus 2026</strong></p>
-                <p>Pukul 09:00 - 17:00 WIB s.d Selesai</p>
+        <!-- Halaman Gerbang Cover Terdepan -->
+        <div id="cover-page">
+            <div class="cover-opening-text">
+                Assalamu’alaikum Warahmatullahi Wabarakatuh.<br><br>
+                Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...
             </div>
-
-            <div class="card-event">
-                <!-- Icon Lokasi -->
-                <div class="icon-box">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13()c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            
+            <div class="wax-seal-wrapper" onclick="executeOpenInvitation()">
+                <div class="wax-seal">
+                    <span class="wax-seal-initials">F&H</span>
                 </div>
-                <h3 style="font-family:'Playfair Display'; margin-bottom:5px;">Lokasi Masjid</h3>
-                <p style="font-size: 0.9rem; color:#444;">Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361</p>
-                <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-maps">Buka Google Maps</a>
+            </div>
+            
+            <button class="btn-open-invitation" onclick="executeOpenInvitation()">Buka Undangan</button>
+        </div>
+
+        <!-- Bagian 1: Teks Ayat Suci Al-Quran -->
+        <section class="reveal-on-scroll">
+            <div class="quran-verse-arabic">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً ۗاِنَّ فِيْ ذٰلِكَ لَاٰيٰتٍ Lِّقَوْمٍ يَّتَفَكَّرُوْ</div>
+            <div class="quran-verse-translation">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir." <br>(QS. Ar-Rum: 21)</div>
+        </section>
+
+        <!-- Slot Foto Pertama -->
+        <section class="reveal-on-scroll">
+            <div class="photo-space-frame">Ruang Foto Mempelai 1</div>
+        </section>
+
+        <!-- Bagian 2: Profil Identitas Mempelai -->
+        <section class="reveal-on-scroll">
+            <h2>Mempelai Pernikahan</h2>
+            
+            <div style="margin-bottom: 30px;">
+                <div class="script-calligraphy">M Farid Maulana</div>
+                <p style="font-size: 0.9rem; color: #555;">Putra dari Bapak Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
+            </div>
+            
+            <div style="font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold); margin: 20px 0;">Dengan</div>
+            
+            <div>
+                <div class="script-calligraphy">Hanisa Awaliyah</div>
+                <p style="font-size: 0.9rem; color: #555;">Putri dari Bapak Engkus Muhidin & Ibu Hilasari</p>
             </div>
         </section>
 
-        <!-- SEKSI 4: ADAB WALIMAH -->
-        <section class="section-frame reveal">
-            <!-- Icon Adab Makan -->
-            <div class="icon-box" style="width:50px; height:50px;">
-                <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm10-3H18V2h-2v9.5c0 1.38 1.12 2.5 2.5 2.5H20v8h2V6c0-1.1-.9-2-2-2z"/></svg>
-            </div>
-            <h2>Adab Walimatul 'Ursy</h2>
-            <p style="font-size:0.85rem; color:#666;">Tanpa mengurangi rasa hormat, demi menjaga keberkahan acara, kami menghimbau para tamu untuk memperhatikan adab berikut:</p>
+        <!-- Slot Foto Kedua -->
+        <section class="reveal-on-scroll">
+            <div class="photo-space-frame">Ruang Foto Mempelai 2</div>
+        </section>
+
+        <!-- Bagian 3: Detail Logistik Waktu & Lokasi -->
+        <section class="reveal-on-scroll">
+            <h2>Pelaksanaan Acara</h2>
             
-            <div class="adab-list">
-                <div class="adab-item">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span>Makan dan minum secara tertib dengan posisi duduk.</span>
-                </div>
-                <div class="adab-item">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span>Menggunakan tangan kanan saat mengambil hidangan.</span>
-                </div>
-                <div class="adab-item">
-                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                    <span>Menjaga batas pandangan dan mengenakan busana muslim/muslimah syar'i yang menutup aurat secara sempurna.</span>
-                </div>
+            <div class="details-card">
+                <div class="icon-container">📅</div>
+                <h3>Waktu Utama</h3>
+                <p style="margin-top: 10px; font-weight: 600;">Sabtu, 29 Agustus 2026</p>
+                <p style="font-size: 0.9rem; color: #555;">Pukul: 09:00 - 17:00 WIB s.d Selesai</p>
+            </div>
+
+            <div class="details-card">
+                <div class="icon-container">📍</div>
+                <h3>Lokasi Maslahat</h3>
+                <p style="font-size: 0.9rem; line-height: 1.6; margin-top: 10px; color: #444;">Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361</p>
+                <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-action-link">Buka Google Maps</a>
             </div>
         </section>
 
-        <!-- SEKSI 5: DIGITAL GIFT -->
-        <section class="section-frame reveal" style="background:#FAF5F3;">
+        <!-- Bagian 4: Santunan Digital Gift -->
+        <section class="reveal-on-scroll">
             <h2>Digital Gift</h2>
-            <p style="font-size:0.85rem;">Tanda kasih Anda dapat ditransaksikan langsung secara aman melalui kanal perbankan berikut:</p>
-            <div class="gift-box">
-                <p style="font-weight:600; color:var(--burgundy);">Bank Syariah Indonesia (BSI)</p>
-                <p style="font-size:1.4rem; font-weight:700; margin:10px 0; letter-spacing:1px;">1060822537</p>
-                <p style="font-size:0.9rem;">a.n. M Farid Maulana</p>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 20px;">Tanda kasih asimilasi cashless tanpa mengurangi esensi keberkahan:</p>
+            
+            <div class="bank-info-box">
+                <p style="font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;">BANK SYARIAH INDONESIA (BSI)</p>
+                <p id="account-number" style="font-size: 1.4rem; font-weight: 700; color: var(--burgundy); margin: 8px 0;">1060822537</p>
+                <p style="font-size: 0.85rem; color: #555;">a.n. M Farid Maulana</p>
+                <button class="btn-copy-data" onclick="copyAccountNumberData()">Salin No. Rekening</button>
             </div>
         </section>
+
+        <footer style="text-align: center; padding: 30px; font-size: 0.75rem; color: #999; letter-spacing: 1px;">
+            &copy; 2026 Farid & Hanisa Wedding. Built via GitHub.
+        </footer>
 
     </div>
 
-    <!-- SCRIPT LOGIKA JAVASCRIPT & ANIMASI -->
+    <!-- Logika Fungsi Interaktif JavaScript -->
     <script>
-        // --- LOGIKA INITIALISASI DAN MUSIK ---
-        function initiateWeddingExperience() {
-            document.getElementById('cover-overlay').classList.add('dismissed');
-            
-            // Jalankan Audio Murottal
-            const player = document.getElementById('murottal-player');
-            player.play().catch(error => {
-                console.log("Autoplay dicegah oleh kebijakan browser, memerlukan interaksi lanjutan.");
-            });
-
-            // Aktifkan Efek Hujan Feather
-            document.getElementById('particle-canvas').style.display = 'block';
-            initFeatherRain();
-        }
-
-        // --- ENGINE EFEK INTERAKTIF SCROLL REVEAL ---
-        const observer = new IntersectionObserver((entries) => {
+        // Logika Aktivasi Efek Teks Memudar Saat Gulir Layar (Scroll Reveal Engine)
+        const scrollTracker = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if(entry.isIntersecting) {
-                    entry.target.classList.add('active');
+                    entry.target.classList.add('activated');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
 
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        document.querySelectorAll('.reveal-on-scroll').forEach((el) => scrollTracker.observe(el));
 
-        // --- SISTEM PARTIKEL ANIMASI (FEATHER RAIN ENGINE) ---
-        function initFeatherRain() {
-            const canvas = document.getElementById('particle-canvas');
+        // Eksekusi Pembukaan Utama Undangan
+        function executeOpenInvitation() {
+            document.getElementById('cover-page').classList.add('dismissed');
+            document.getElementById('audio-controller').style.display = 'flex';
+            
+            // Sistem Audio Player Trigger
+            const player = document.getElementById('murottal-player');
+            player.play().catch(err => console.log("Interaksi autoplay diblokir browser, audio dimatikan default."));
+            
+            // Inisialisasi Efek Hujan Bulu (Feather Drop Engine)
+            document.getElementById('feather-canvas').style.display = 'block';
+            initFeatherParticleEngine();
+        }
+
+        // Pengendali Mekanisme Tombol Audio Mute/Unmute
+        function toggleAudioControl() {
+            const player = document.getElementById('murottal-player');
+            const btn = document.getElementById('audio-controller');
+            if(player.paused) {
+                player.play();
+                btn.innerText = "MUTE";
+                btn.style.background = "#4A1521";
+            } else {
+                player.pause();
+                btn.innerText = "PLAY";
+                btn.style.background = "#A87070";
+            }
+        }
+
+        // Fungsi Salin Rekening
+        function copyAccountNumberData() {
+            const num = document.getElementById('account-number').innerText;
+            navigator.clipboard.writeText(num).then(() => {
+                alert('Nomor rekening BSI berhasil disalin!');
+            });
+        }
+
+        // Mesin Simulasi Fisika Hujan Bulu (Feather Fall Particle System Canvas)
+        function initFeatherParticleEngine() {
+            const canvas = document.getElementById('feather-canvas');
             const ctx = canvas.getContext('2d');
             
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
 
-            const particleCount = 25;
-            const feathers = [];
+            const maxFeathers = 25;
+            const feathersArray = [];
 
-            for (let i = 0; i < particleCount; i++) {
-                feathers.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    r: Math.random() * 4 + 2, // Jari-jari partikel
-                    d: Math.random() * particleCount,
-                    speed: Math.random() * 1.5 + 0.5,
-                    oscillation: Math.random() * 0.02 + 0.01
+            for(let i=0; i<maxFeathers; i++) {
+                feathersArray.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height - height,
+                    r: Math.random() * 4 + 2, // Ukuran partikel bulu
+                    d: Math.random() * maxFeathers,
+                    speed: Math.random() * 1 + 0.5,
+                    swing: Math.random() * 2
                 });
             }
 
-            function drawFeathers() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'rgba(244, 143, 177, 0.45)'; // Warna soft pink untuk bulu/feather
+            function drawParticles() {
+                ctx.clearRect(0, 0, width, height);
+                ctx.fillStyle = 'rgba(244, 192, 192, 0.6)'; // Warna pink kelopak/bulu transparan
                 ctx.beginPath();
                 
-                for (let i = 0; i < particleCount; i++) {
-                    const f = feathers[i];
+                for(let i=0; i<maxFeathers; i++) {
+                    const f = feathersArray[i];
                     ctx.moveTo(f.x, f.y);
-                    // Gambar representasi partikel feather halus berbentuk elips kecil
-                    ctx.ellipse(f.x, f.y, f.r * 2, f.r, Math.sin(f.d), 0, Math.PI * 2);
-                }
-                ctx.fill();
-                updateFeatherPositions();
-            }
-
-            function updateFeatherPositions() {
-                for (let i = 0; i < particleCount; i++) {
-                    const f = feathers[i];
+                    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+                    
+                    // Logika Pergerakan Jatuh Mengayun
                     f.y += f.speed;
-                    f.x += Math.sin(f.d) * 0.6;
-                    f.d += f.oscillation;
-
-                    // Reset partikel jika keluar layar bawah atau samping
-                    if (f.y > canvas.height || f.x > canvas.width || f.x < 0) {
-                        feathers[i] = {
-                            x: Math.random() * canvas.width,
-                            y: -20,
+                    f.x += Math.sin(f.y / 30) * f.swing;
+                    
+                    if(f.y > height) {
+                        feathersArray[i] = {
+                            x: Math.random() * width,
+                            y: -10,
                             r: f.r,
-                            d: Math.random() * particleCount,
+                            d: f.d,
                             speed: f.speed,
-                            oscillation: f.oscillation
+                            swing: f.swing
                         };
                     }
                 }
+                ctx.fill();
+                requestAnimationFrame(drawParticles);
             }
-
-            function animationLoop() {
-                drawFeathers();
-                requestAnimationFrame(animationLoop);
-            }
-            animationLoop();
+            drawParticles();
         }
     </script>
 </body>
