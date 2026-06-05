@@ -4,424 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Wedding of Farid & Hanisa</title>
-    
-    <!-- Premium Fonts Integration -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Amiri&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --rose-brown: #704242;
-            --rose-light: #9E6B6B;
-            --gold-foil: linear-gradient(45deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-            --white: #FFFFFF;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --rose-brown: #A67B7B; --gold: #D4AF37; --white: #FFFFFF; }
+        body { margin: 0; background: var(--rose-brown); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
         
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #1a0f0f;
-            color: var(--white);
-            overflow-x: hidden;
-        }
+        /* Frame & Gold Effect */
+        .wrapper { border: 15px double var(--gold); margin: 20px; padding: 20px; min-height: 90vh; background: #fdf5f5; position: relative; }
+        
+        #overlay { position: fixed; inset: 0; background: var(--rose-brown); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 1000; transition: 0.8s; }
+        .btn-open { padding: 15px 30px; border: 2px solid white; background: transparent; color: white; cursor: pointer; font-size: 1.2rem; margin-top: 20px; }
+        
+        /* Animations */
+        .fade-in-up { opacity: 0; transform: translateY(50px); transition: 1s; }
+        .visible { opacity: 1; transform: translateY(0); }
+        
+        /* Feather Animation */
+        .feather { position: absolute; width: 10px; height: 15px; background: pink; border-radius: 50% 50% 0 0; opacity: 0.6; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(100vh); } }
 
-        /* Canvas untuk Animasi Bulu */
-        #featherCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 99;
-            display: none;
-        }
-
-        /* Efek Pop-Up Dramatis via Scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        /* Cover Layar Penuh */
-        #cover {
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(135deg, #4a2828 0%, var(--rose-brown) 100%);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 30px;
-            text-align: center;
-            transition: transform 1s cubic-bezier(0.82, 0.01, 0.77, 1);
-            border: 15px solid transparent;
-            border-image: var(--gold-foil) 15;
-        }
-        #cover.hidden { transform: translateY(-100%); }
-
-        .cover-text {
-            font-size: 1rem;
-            line-height: 1.8;
-            max-width: 400px;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        /* Container Utama Mobile-First */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: radial-gradient(circle at 50% 50%, var(--rose-light) 0%, var(--rose-brown) 100%);
-            min-height: 100vh;
-            padding: 40px 25px;
-            position: relative;
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-image: var(--gold-foil) 6;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
-        }
-
-        /* Bingkai Ornamen Dalam */
-        .inner-frame {
-            position: absolute;
-            inset: 15px;
-            border: 1px solid transparent;
-            border-image: var(--gold-foil) 1;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-
-        section {
-            position: relative;
-            margin-bottom: 70px;
-            text-align: center;
-            z-index: 2;
-        }
-
-        /* Gaya Tipografi */
-        .script-name {
-            font-family: 'Great Vibes', cursive;
-            font-size: 3.2rem;
-            background: var(--gold-foil);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 10px 0;
-        }
-
-        h2 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            color: #f7e1b5;
-        }
-
-        .arabic {
-            font-family: 'Amiri', serif;
-            font-size: 1.6rem;
-            line-height: 2.5;
-            direction: rtl;
-            margin: 20px 0;
-            color: #fbe6c2;
-        }
-
-        /* Slot Foto Berdampingan/Symmetric */
-        .photo-container {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
-            justify-content: center;
-        }
-        .photo-slot {
-            width: 140px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid transparent;
-            border-image: var(--gold-foil) 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            color: #ddd;
-            text-transform: uppercase;
-        }
-
-        /* Kartu Informasi & Tombol */
-        .card {
-            background: rgba(0, 0, 0, 0.25);
-            padding: 25px;
-            border-radius: 4px;
-            border: 1px solid rgba(252, 246, 186, 0.2);
-            margin-top: 15px;
-        }
-
-        .btn-gold {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--gold-foil);
-            color: #331a1a;
-            padding: 12px 30px;
-            text-decoration: none;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: 0.3s;
-        }
-        .btn-gold:hover { transform: scale(1.03); }
-
-        .icon-svg {
-            width: 24px;
-            height: 24px;
-            fill: #f7e1b5;
-            margin-bottom: 8px;
-        }
-
-        #music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 100;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid #BF953F;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            display: none;
-        }
+        h1, h2 { font-family: 'Playfair Display', serif; color: #5D4037; }
+        .photo-frame { width: 100%; height: 300px; background: #ddd; margin: 20px 0; border: 3px solid var(--gold); }
+        .adab-box { background: rgba(166, 123, 123, 0.1); padding: 20px; margin: 20px 0; border-left: 5px solid var(--gold); }
     </style>
 </head>
 <body>
 
-    <!-- Sumber Audio Murottal -->
-    <audio id="murottal" loop>
-        <source src="URL_FILE_MUROTTAL_ANDA_DI_SINI.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="murottal" loop><source src="LINK_MUROTAL_ANDA.mp3" type="audio/mpeg"></audio>
 
-    <!-- Canvas Animasi Hujan Bulu -->
-    <canvas id="featherCanvas"></canvas>
-
-    <!-- Halaman Pembuka / Cover -->
-    <div id="cover">
-        <p class="cover-text">Assalamu’alaikum Warahmatullahi Wabarakatuh. Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
-        <button class="btn-gold" onclick="bukaUndangan()">
-            <svg class="icon-svg" style="fill:#331a1a; margin:0;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-            Buka Undangan
-        </button>
+    <div id="overlay">
+        <p style="text-align: center; max-width: 80%;">Assalamu’alaikum Warahmatullahi Wabarakatuh.<br>Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
+        <button class="btn-open" onclick="start()">Buka Undangan</button>
     </div>
 
-    <!-- Konten Utama Rumah Undangan -->
-    <div class="container">
-        <div class="inner-frame"></div>
-
-        <!-- Ayat Al-Qur'an -->
-        <section class="reveal">
-            <h2>Surah Ar-Rum 21</h2>
-            <div class="arabic">وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا lِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَّوَدَّةً وَّرَحْمَةً ۗاِنَّ فِيْ ذٰلِكَ لَاٰيٰtٍ lِّقَوْمٍ يَّتَفَكَّرُوْ</div>
-            <p style="font-size: 0.85rem; line-height: 1.6; color: #f0dfdf; text-align: justify;">"Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir."</p>
+    <div class="wrapper">
+        <section class="fade-in-up">
+            <h2>QS. Ar-Rum: 21</h2>
+            <p style="font-size: 1.2rem; color: #5D4037;">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir."</p>
         </section>
 
-        <!-- Profil Mempelai -->
-        <section class="reveal">
-            <h2>Mempelai Pernikahan</h2>
-            
-            <div style="margin-top: 20px;">
-                <div class="script-name">M Farid Maulana</div>
-                <p style="font-size: 0.9rem;">Putra dari: <br><strong>Bapak Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</strong></p>
-            </div>
-
-            <!-- Tempat Foto 1 & 2 -->
-            <div class="photo-container">
-                <div class="photo-slot">Foto Farid</div>
-                <div class="photo-slot">Foto Hanisa</div>
-            </div>
-
-            <div style="margin-top: 20px;">
-                <div class="script-name">Hanisa Awaliyah Muhidin</div>
-                <p style="font-size: 0.9rem;">Putri dari: <br><strong>Bapak Engkus Muhidin & Ibu Hilasari</strong></p>
-            </div>
+        <section class="fade-in-up">
+            <h1 style="font-style: italic;">M Farid Maulana</h1>
+            <p>Putra dari Mahfud H. Hasan & Zakia Drajat M. Sidik</p>
+            <p>&</p>
+            <h1 style="font-style: italic;">Hanisa Awaliyah Muhidin</h1>
+            <p>Putri dari Engkus Muhidin & Hilasari</p>
         </section>
 
-        <!-- Detail Waktu & Lokasi -->
-        <section class="reveal">
-            <h2>Waktu & Lokasi</h2>
-            <div class="card">
-                <!-- Icon Waktu (Clock) -->
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                <p style="font-weight: 600; font-size: 1.1rem; color: #f7e1b5;">Sabtu, 29 Agustus 2026</p>
-                <p style="font-size: 0.9rem; margin-bottom: 20px;">Akad: 09:00 - 17:00 WIB Selesai</p>
-                
-                <div style="border-top: 1px dashed rgba(255,255,255,0.2); margin: 15px 0;"></div>
-
-                <!-- Icon Lokasi (Pin) -->
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-130-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-                <p style="font-size: 0.85rem; line-height: 1.6; padding: 0 10px;">Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361</p>
-                
-                <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-gold" style="margin-top: 20px;">Buka Google Maps</a>
-            </div>
+        <section class="fade-in-up">
+            <div class="photo-frame">Foto 1</div>
+            <div class="photo-frame">Foto 2</div>
         </section>
 
-        <!-- Adab Walimah Syar'i -->
-        <section class="reveal">
-            <h2>Adab Makan & Walimah</h2>
-            <div class="card" style="text-align: left;">
-                <!-- Icon Penjelasan (Book/Info) -->
-                <div style="text-align: center; margin-bottom: 10px;">
-                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                </div>
-                <p style="font-size: 0.85rem; line-height: 1.8; color: #f0dfdf;">
-                    Tanpa mengurangi rasa hormat, demi menjaga keberkahan dan kenyamanan syariat walimatul 'ursy, kami menghimbau para tamu undangan untuk memperhatikan adab sebagai berikut:
-                </p>
-                <ul style="font-size: 0.85rem; margin-top: 10px; margin-left: 20px; line-height: 1.8; color: #f7e1b5;">
-                    <li>Menutup aurat secara sempurna dengan busana muslim/muslimah sopan.</li>
-                    <li>Makan dan minum sembari duduk (tidak *standing party*).</li>
-                    <li>Menggunakan tangan kanan saat mengambil hidangan.</li>
-                    <li>Menjaga pandangan dan mengutamakan salam khidmat tanpa bersentuhan fisik antar non-mahram.</li>
-                </ul>
-            </div>
+        <section class="fade-in-up">
+            <h2>📅 29 Agustus 2026 | 09:00 - 17:00 WIB</h2>
+            <p>Masjid Nurul Iman, Jl. Delima Raya No.7, Karawang</p>
+            <a href="https://share.google/I9D4RzEuEK1cMQm3j" style="color: var(--gold); font-weight: bold;">Lihat Lokasi di Google Maps</a>
         </section>
 
-        <!-- Keuangan / Digital Gift -->
-        <section class="reveal">
-            <h2>Digital Gift</h2>
-            <div class="card">
-                <p style="font-size: 0.9rem; margin-bottom: 15px;">Tanda kasih Anda dapat ditransfer secara aman melalui rekening berikut:</p>
-                <p style="font-weight: 300; letter-spacing: 1px;">Bank Syariah Indonesia (BSI)</p>
-                <p id="norek" style="font-size: 1.5rem; font-weight: 600; margin: 10px 0; color: #f7e1b5; letter-spacing: 2px;">1060822537</p>
-                <p style="font-size: 0.9rem; margin-bottom: 15px;">a.n. M Farid Maulana</p>
-                <button class="btn-gold" onclick="salinNorek()">Salin Nomor Rekening</button>
-            </div>
+        <section class="fade-in-up adab-box">
+            <h3>Adab Walimah</h3>
+            <p>🍽️ Demi menjaga kesucian acara, dimohon untuk <strong>Makan sambil duduk</strong> sesuai sunnah Nabi.</p>
         </section>
 
+        <section class="fade-in-up">
+            <h3>Digital Gift</h3>
+            <p><strong>BSI: 1060822537</strong><br>a.n. M Farid Maulana</p>
+        </section>
     </div>
-
-    <!-- Tombol Kendali Musik Terapung -->
-    <button id="music-control" onclick="toggleMusik()">🔊</button>
 
     <script>
-        // Logika Trigger Animasi Kemunculan Saat Scroll (Pop-up Observers)
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-        // Prosedur Eksekusi Tombol Buka Undangan
-        function bukaUndangan() {
-            document.getElementById('cover').classList.add('hidden');
-            document.getElementById('music-control').style.display = 'block';
-            
-            // Jalankan Fitur Audio
-            const audio = document.getElementById('murottal');
-            audio.play().catch(e => console.log("Autoplay dicegah browser, musik butuh interaksi fisik manual."));
-            
-            // Aktifkan Canvas Hujan Bulu
-            document.getElementById('featherCanvas').style.display = 'block';
-            initFeatherRain();
+        function start() {
+            document.getElementById('overlay').classList.add('hidden');
+            document.getElementById('murottal').play();
+            setInterval(createFeather, 500);
+            document.querySelectorAll('.fade-in-up').forEach(el => el.classList.add('visible'));
         }
 
-        function toggleMusik() {
-            const audio = document.getElementById('murottal');
-            const btn = document.getElementById('music-control');
-            if (audio.paused) {
-                audio.play();
-                btn.innerText = "🔊";
-            } else {
-                audio.pause();
-                btn.innerText = "🔇";
-            }
-        }
-
-        function salinNorek() {
-            const text = document.getElementById('norek').innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                alert("Nomor rekening BSI berhasil disalin!");
-            });
-        }
-
-        // Engine JavaScript: Animasi Bulu Merah Muda Jatuh (Pink Feather Rain)
-        function initFeatherRain() {
-            const canvas = document.getElementById('featherCanvas');
-            const ctx = canvas.getContext('2d');
-            
-            let w = canvas.width = window.innerWidth;
-            let h = canvas.height = window.innerHeight;
-            
-            const numFeathers = 25;
-            const feathers = [];
-            
-            for(let i=0; i<numFeathers; i++) {
-                feathers.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h - h,
-                    r: Math.random() * 4 + 2, // ukuran lingkaran partikel menyerupai bulu halus halus
-                    d: Math.random() * numFeathers,
-                    speedY: Math.random() * 1 + 0.5,
-                    speedX: Math.random() * 1 - 0.5
-                });
-            }
-            
-            function draw() {
-                ctx.clearRect(0, 0, w, h);
-                ctx.fillStyle = 'rgba(255, 182, 193, 0.4)'; // Warna Pink Bulu Halus Transparan
-                ctx.beginPath();
-                for(let i=0; i<numFeathers; i++) {
-                    const f = feathers[i];
-                    ctx.moveTo(f.x, f.y);
-                    ctx.arc(f.x, f.y, f.r, 0, Math.PI*2, true);
-                }
-                ctx.fill();
-                update();
-            }
-            
-            function update() {
-                for(let i=0; i<numFeathers; i++) {
-                    const f = feathers[i];
-                    f.y += f.speedY;
-                    f.x += Math.sin(f.d) * 0.5 + f.speedX;
-                    
-                    // Reset partikel jika keluar layar bawah/samping
-                    if(f.y > h || f.x > w || f.x < 0) {
-                        feathers[i] = {
-                            x: Math.random() * w,
-                            y: -20,
-                            r: f.r,
-                            d: f.d,
-                            speedY: f.speedY,
-                            speedX: f.speedX
-                        };
-                    }
-                }
-            }
-            
-            setInterval(draw, 20);
-            
-            window.addEventListener('resize', () => {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
-            });
+        function createFeather() {
+            const f = document.createElement('div');
+            f.className = 'feather';
+            f.style.left = Math.random() * 100 + 'vw';
+            f.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(f);
+            setTimeout(() => f.remove(), 5000);
         }
     </script>
 </body>
