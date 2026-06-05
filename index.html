@@ -3,92 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Wedding of Farid & Hanisa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <title>Undangan Pernikahan Farid & Hanisa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
-        :root { --rose-brown: #A67B7B; --gold: #D4AF37; --white: #FFFFFF; }
-        body { margin: 0; background: var(--rose-brown); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        :root { --gold: #D4AF37; --rose-brown: #5E3C3C; --pink: #FFC0CB; --white: #FFFFFF; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: #fcf9f9; color: #444; }
         
-        /* Frame & Gold Effect */
-        .wrapper { border: 15px double var(--gold); margin: 20px; padding: 20px; min-height: 90vh; background: #fdf5f5; position: relative; }
-        
-        #overlay { position: fixed; inset: 0; background: var(--rose-brown); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 1000; transition: 0.8s; }
-        .btn-open { padding: 15px 30px; border: 2px solid white; background: transparent; color: white; cursor: pointer; font-size: 1.2rem; margin-top: 20px; }
-        
-        /* Animations */
-        .fade-in-up { opacity: 0; transform: translateY(50px); transition: 1s; }
-        .visible { opacity: 1; transform: translateY(0); }
-        
-        /* Feather Animation */
-        .feather { position: absolute; width: 10px; height: 15px; background: pink; border-radius: 50% 50% 0 0; opacity: 0.6; animation: fall linear infinite; }
+        /* Gold Foil Border Frame */
+        .frame { border: 15px solid transparent; border-image: linear-gradient(to bottom right, #D4AF37, #FBF4C0, #D4AF37); border-image-slice: 1; padding: 20px; min-height: 90vh; }
+
+        /* Animation Section */
+        #cover { position: fixed; inset: 0; background: var(--rose-brown); display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--gold); z-index: 1000; transition: 0.8s; }
+        #cover.hidden { transform: translateY(-100%); }
+        .petal { position: absolute; background: var(--pink); border-radius: 0 50% 0 50%; opacity: 0.6; animation: fall linear infinite; }
         @keyframes fall { to { transform: translateY(100vh); } }
 
-        h1, h2 { font-family: 'Playfair Display', serif; color: #5D4037; }
-        .photo-frame { width: 100%; height: 300px; background: #ddd; margin: 20px 0; border: 3px solid var(--gold); }
-        .adab-box { background: rgba(166, 123, 123, 0.1); padding: 20px; margin: 20px 0; border-left: 5px solid var(--gold); }
+        h1 { font-family: 'Playfair Display', serif; color: var(--gold); }
+        .btn-open { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 15px 30px; cursor: pointer; text-transform: uppercase; }
+        
+        .section { margin: 40px 0; text-align: center; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn { display: inline-block; background: var(--rose-brown); color: white; padding: 10px 20px; text-decoration: none; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <audio id="murottal" loop><source src="LINK_MUROTAL_ANDA.mp3" type="audio/mpeg"></audio>
+    <audio id="audio" loop><source src="murottal.mp3" type="audio/mpeg"></audio>
 
-    <div id="overlay">
-        <p style="text-align: center; max-width: 80%;">Assalamu’alaikum Warahmatullahi Wabarakatuh.<br>Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
+    <div id="cover">
+        <p>Assalamu’alaikum Warahmatullahi Wabarakatuh</p>
+        <p style="text-align: center; max-width: 80%;">Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami...</p>
         <button class="btn-open" onclick="start()">Buka Undangan</button>
     </div>
 
-    <div class="wrapper">
-        <section class="fade-in-up">
-            <h2>QS. Ar-Rum: 21</h2>
-            <p style="font-size: 1.2rem; color: #5D4037;">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُم مَّوَدَّةً وَرَحْمَةً ۚ إِنَّ فِي ذَٰلِكَ لَآيَاتٍ لِّقَوْمٍ يَتَفَكَّرُونَ</p>
-            <p style="font-size: 0.9rem; margin-top: 10px;">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu istri-istri dari jenismu sendiri, supaya kamu cenderung dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa kasih dan sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda bagi kaum yang berpikir."</p>
-        </section>
+    <div class="frame">
+        <div class="section">
+            <h1 style="font-style: italic;">QS. Ar-Rum: 21</h1>
+            <p>“Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya...”</p>
+        </div>
 
-        <section class="fade-in-up">
-            <h1 style="font-style: italic;">M Farid Maulana</h1>
-            <p>Putra dari Mahfud H. Hasan & Zakia Drajat M. Sidik</p>
+        <div class="section">
+            <h2>Mempelai</h2>
+            <p><strong>M Farid Maulana</strong><br>Putra dari Bpk. Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
             <p>&</p>
-            <h1 style="font-style: italic;">Hanisa Awaliyah Muhidin</h1>
-            <p>Putri dari Engkus Muhidin & Hilasari</p>
-        </section>
+            <p><strong>Hanisa Awaliyah Muhidin</strong><br>Putri dari Bpk. Engkus Muhidin & Ibu Hilasari</p>
+        </div>
 
-        <section class="fade-in-up">
-            <div class="photo-frame">Foto 1</div>
-            <div class="photo-frame">Foto 2</div>
-        </section>
+        <div class="section card">
+            <h2>Akad & Resepsi</h2>
+            <p>📅 Sabtu, 29 Agustus 2026</p>
+            <p>⏰ 09:00 - 17:00 WIB</p>
+            <p>📍 Jl. Delima Raya No.7, Telukjambe, Karawang</p>
+            <a href="https://share.google/I9D4RzEuEK1cMQm3j" class="btn">Lihat Lokasi Maps</a>
+        </div>
 
-        <section class="fade-in-up">
-            <h2>📅 29 Agustus 2026 | 09:00 - 17:00 WIB</h2>
-            <p>Masjid Nurul Iman, Jl. Delima Raya No.7, Karawang</p>
-            <a href="https://share.google/I9D4RzEuEK1cMQm3j" style="color: var(--gold); font-weight: bold;">Lihat Lokasi di Google Maps</a>
-        </section>
+        <div class="section">
+            <h2>Adab Walimah</h2>
+            <p>Demi menjaga keberkahan acara, mohon kesediaan tamu untuk:</p>
+            <ul style="list-style: none;">
+                <li>✓ Makan & minum dengan posisi duduk</li>
+                <li>✓ Menutup aurat dengan sempurna</li>
+                <li>✓ Menjaga shalat di waktu yang telah disediakan</li>
+            </ul>
+        </div>
 
-        <section class="fade-in-up adab-box">
-            <h3>Adab Walimah</h3>
-            <p>🍽️ Demi menjaga kesucian acara, dimohon untuk <strong>Makan sambil duduk</strong> sesuai sunnah Nabi.</p>
-        </section>
-
-        <section class="fade-in-up">
-            <h3>Digital Gift</h3>
-            <p><strong>BSI: 1060822537</strong><br>a.n. M Farid Maulana</p>
-        </section>
+        <div class="section card">
+            <h2>Digital Gift</h2>
+            <p>BSI: <strong>1060822537</strong><br>a.n. M Farid Maulana</p>
+        </div>
     </div>
 
     <script>
         function start() {
-            document.getElementById('overlay').classList.add('hidden');
-            document.getElementById('murottal').play();
-            setInterval(createFeather, 500);
-            document.querySelectorAll('.fade-in-up').forEach(el => el.classList.add('visible'));
+            document.getElementById('cover').classList.add('hidden');
+            document.getElementById('audio').play();
+            createPetals();
         }
-
-        function createFeather() {
-            const f = document.createElement('div');
-            f.className = 'feather';
-            f.style.left = Math.random() * 100 + 'vw';
-            f.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(f);
-            setTimeout(() => f.remove(), 5000);
+        function createPetals() {
+            for(let i=0; i<30; i++) {
+                const p = document.createElement('div');
+                p.className = 'petal';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.animationDuration = Math.random() * 3 + 2 + 's';
+                p.style.width = p.style.height = Math.random() * 10 + 5 + 'px';
+                document.body.appendChild(p);
+            }
         }
     </script>
 </body>
