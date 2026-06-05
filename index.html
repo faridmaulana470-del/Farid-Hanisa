@@ -9,33 +9,110 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <style>
-        :root { --burgundy: #6B1724; --rose-brown: #B37D7D; --white: #FFFFFF; }
+        :root { 
+            --rose-brown: #B37D7D; 
+            --dark-rose: #4A2E2E;
+            --white: #FFFFFF; 
+        }
+        
         body { 
             font-family: 'Montserrat', sans-serif; 
             color: #fff; 
             margin: 0; 
-            /* Kombinasi Warna Solid Burgundy dengan Tekstur Air */
-            background-color: var(--burgundy);
-            background-image: linear-gradient(rgba(107, 23, 36, 0.9), rgba(107, 23, 36, 0.9)), 
+            background-color: var(--rose-brown);
+            /* Lapisan Transparan Di Atas Tekstur Air Halus */
+            background-image: linear-gradient(rgba(179, 125, 125, 0.94), rgba(179, 125, 125, 0.94)), 
                               url("https://www.transparenttextures.com/patterns/water.png");
             overflow-x: hidden; 
         }
         
-        #cover { position: fixed; inset: 0; background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('GANTI_DENGAN_LINK_FOTO_UTAMA_ANDA'); background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 1000; transition: 0.8s; }
-        #cover.hidden { transform: translateY(-100%); }
+        /* COVER DENGAN TRANSISI FUTURISTIK (IRIS SHUTTER) */
+        #cover { 
+            position: fixed; 
+            inset: 0; 
+            background: linear-gradient(rgba(74, 46, 46, 0.6), rgba(74, 46, 46, 0.6)), url('GANTI_DENGAN_LINK_FOTO_UTAMA_ANDA'); 
+            background-size: cover; 
+            background-position: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white; 
+            z-index: 1000; 
+            /* Logika Transisi Shutter Bulat */
+            clip-path: circle(150% at 50% 50%);
+            transition: clip-path 1.2s cubic-bezier(0.85, 0, 0.15, 1), opacity 1.2s ease;
+        }
         
-        .container { max-width: 500px; margin: auto; padding: 60px 20px; }
+        #cover.hidden { 
+            clip-path: circle(0% at 50% 50%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* KONTEN UTAMA DENGAN EFEK REVEAL */
+        .container { 
+            max-width: 500px; 
+            margin: auto; 
+            padding: 60px 20px; 
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        body.active .container {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        
         section { margin-bottom: 80px; text-align: center; }
         h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 10px; color: #fff; }
-        .divider { width: 60px; height: 2px; background: var(--rose-brown); margin: 20px auto; }
         
-        .gallery img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.5); }
-        .card { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 15px; padding: 30px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .btn-main { display: inline-block; background: white; color: var(--burgundy); padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: 600; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; }
-        .btn-main:hover { background: var(--rose-brown); color: white; }
+        /* ORNAMEN LINIER MINIMALIS (DIVIDER) */
+        .divider { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: rgba(255,255,255,0.5);
+            margin: 0 10px;
+        }
+        .divider i { font-size: 0.8rem; opacity: 0.7; }
         
-        .gift-box { background: rgba(0, 0, 0, 0.15); padding: 25px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.3); }
-        #music-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: white; color: var(--burgundy); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3); font-size: 1.2rem; }
+        /* KARTU DENGAN ORNAMEN SUDUT GEOMETRIS */
+        .card { 
+            position: relative;
+            background: rgba(255, 255, 255, 0.06); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            border-radius: 15px; 
+            padding: 35px 25px; 
+            border: 1px solid rgba(255,255,255,0.15); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        }
+        
+        /* Logika Ornamen Sudut (Kiri Atas & Kanan Bawah) */
+        .card::before, .card::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        .card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
+        .card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
+        
+        .gallery img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.4); }
+        .btn-main { display: inline-block; background: white; color: var(--dark-rose); padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: 600; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-main:hover { background: var(--dark-rose); color: white; transform: translateY(-2px); }
+        
+        .gift-box { background: rgba(0, 0, 0, 0.1); padding: 25px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.2); }
+        #music-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: white; color: var(--dark-rose); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -47,7 +124,7 @@
         <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;">The Wedding of</p>
         <h1 style="font-family: 'Playfair Display'; font-size: 3.2rem; margin: 15px 0;">Farid & Hanisa</h1>
         <p style="letter-spacing: 1px; margin-bottom: 30px;">29 Agustus 2026</p>
-        <button class="btn-open" onclick="startExperience()" style="background: transparent; border: 1px solid white; color: white; padding: 12px 35px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; transition: 0.3s;">Buka Undangan</button>
+        <button class="btn-open" onclick="startExperience()">Buka Undangan</button>
     </div>
 
     <button id="music-btn" onclick="toggleMusic()"><i class="fa-solid fa-music"></i></button>
@@ -55,25 +132,27 @@
     <div class="container">
         <section data-aos="fade-up">
             <h2>Mempelai</h2>
-            <div class="divider"></div>
-            <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display';">M Farid Maulana</p>
-            <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 20px;">Putra dari Bpk. Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
-            <p style="font-style: italic; font-family: 'Playfair Display'; font-size: 1.5rem; color: var(--rose-brown);">&</p>
-            <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display'; margin-top: 20px;">Hanisa Awaliyah Muhidin</p>
-            <p style="font-size: 0.85rem; opacity: 0.8;">Putri dari Bpk. Engkus Muhidin & Ibu Hilasari</p>
+            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
+            <div class="card">
+                <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display'; margin-bottom: 5px;">M Farid Maulana</p>
+                <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 20px;">Putra dari Bpk. Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
+                <p style="font-style: italic; font-family: 'Playfair Display'; font-size: 1.5rem; color: rgba(255,255,255,0.6); margin: 10px 0;">&</p>
+                <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display'; margin-bottom: 5px;">Hanisa Awaliyah Muhidin</p>
+                <p style="font-size: 0.85rem; opacity: 0.8;">Putri dari Bpk. Engkus Muhidin & Ibu Hilasari</p>
+            </div>
         </section>
 
         <section data-aos="fade-up">
             <h2>Cerita Kita</h2>
-            <div class="divider"></div>
+            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
             <div class="card">
-                <p style="font-size: 0.95rem; font-weight: 300;">Mulai melangkah bersama dalam ikatan suci, perjalanan ini baru saja dimulai. Kami menanti kehadiran Anda untuk menyaksikan janji kami.</p>
+                <p style="font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Mulai melangkah bersama dalam ikatan suci, perjalanan ini baru saja dimulai. Kami menanti kehadiran Anda untuk menyaksikan janji kami.</p>
             </div>
         </section>
 
         <section data-aos="fade-up">
             <h2>Galeri Foto</h2>
-            <div class="divider"></div>
+            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
             <div class="gallery">
                 <img src="GANTI_DENGAN_LINK_FOTO_1" alt="Foto 1">
                 <img src="GANTI_DENGAN_LINK_FOTO_2" alt="Foto 2">
@@ -83,16 +162,16 @@
         <section data-aos="zoom-in">
             <div class="card">
                 <h2>Waktu & Lokasi</h2>
-                <div class="divider"></div>
+                <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
                 
                 <div style="margin-bottom: 30px;">
-                    <i class="fa-regular fa-clock" style="font-size: 2.2rem; color: var(--rose-brown); margin-bottom: 12px; display: block;"></i>
+                    <i class="fa-regular fa-clock" style="font-size: 2rem; opacity: 0.9; margin-bottom: 12px; display: block;"></i>
                     <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Sabtu, 29 Agustus 2026</p>
                     <p style="font-size: 0.9rem; opacity: 0.8;">09:00 - 17:00 WIB<br>(Akad & Resepsi)</p>
                 </div>
 
                 <div style="margin-bottom: 20px;">
-                    <i class="fa-solid fa-location-dot" style="font-size: 2.2rem; color: var(--rose-brown); margin-bottom: 12px; display: block;"></i>
+                    <i class="fa-solid fa-location-dot" style="font-size: 2rem; opacity: 0.9; margin-bottom: 12px; display: block;"></i>
                     <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Masjid Nurul Iman</p>
                     <p style="font-size: 0.9rem; opacity: 0.8;">Telukjambe, Karawang, Jawa Barat</p>
                 </div>
@@ -103,18 +182,17 @@
 
         <section data-aos="fade-up">
             <h2>Digital Gift</h2>
-            <div class="divider"></div>
+            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
             <div class="gift-box">
                 <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;">Tanda kasih Anda dapat dikirimkan melalui:</p>
-                <p style="font-size: 1.4rem; font-weight: 600; letter-spacing: 1px; color: #fff; margin-bottom: 5px;">BSI: 1060822537</p>
+                <p style="font-size: 1.4rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px;">BSI: 1060822537</p>
                 <p style="font-size: 0.95rem; font-weight: 300;">a.n. M Farid Maulana</p>
             </div>
         </section>
 
         <section data-aos="fade-up">
             <h2>Konfirmasi Kehadiran</h2>
-            <div class="divider"></div>
-            <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 25px;">Guna kenyamanan pelaksanaan acara, mohon konfirmasikan kehadiran Anda:</p>
+            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
             <a href="https://wa.me/6285155446815?text=Halo%20Farid%20%26%20Hanisa%2C%20Saya%20akan%20hadir." class="btn-main" style="background: #25D366; color: white; border: none;">WhatsApp RSVP</a>
         </section>
     </div>
@@ -124,11 +202,15 @@
         AOS.init({ duration: 1000, once: true });
         
         function startExperience() {
+            // Eksekusi Efek Shutter Bulat
             document.getElementById('cover').classList.add('hidden');
+            document.body.classList.add('active');
+            
             const music = document.getElementById('bg-music');
-            music.play().catch(e => console.log("Audio play prevented atau URL belum diisi"));
+            music.play().catch(e => console.log("Audio play diblokir sistem peramban"));
             document.getElementById('music-btn').style.display = 'block';
         }
+        
         function toggleMusic() {
             const music = document.getElementById('bg-music');
             const icon = document.querySelector('#music-btn i');
