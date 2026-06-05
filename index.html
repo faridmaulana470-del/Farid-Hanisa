@@ -4,223 +4,395 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Wedding of Farid & Hanisa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
+    <!-- Premium Fonts Setup -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
     <style>
-        :root { 
-            --rose-brown: #B37D7D; 
-            --dark-rose: #4A2E2E;
-            --white: #FFFFFF; 
+        :root {
+            --rose-brown: #8C5656;
+            --rose-light: #A66C6C;
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --white: #FFFFFF;
+            --dark: #2A1A1A;
         }
-        
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            color: #fff; 
-            margin: 0; 
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--rose-brown);
-            /* Lapisan Transparan Di Atas Tekstur Air Halus */
-            background-image: linear-gradient(rgba(179, 125, 125, 0.94), rgba(179, 125, 125, 0.94)), 
-                              url("https://www.transparenttextures.com/patterns/water.png");
-            overflow-x: hidden; 
+            color: var(--white);
+            overflow-x: hidden;
+            text-align: center;
         }
-        
-        /* COVER DENGAN TRANSISI FUTURISTIK (IRIS SHUTTER) */
-        #cover { 
-            position: fixed; 
-            inset: 0; 
-            background: linear-gradient(rgba(74, 46, 46, 0.6), rgba(74, 46, 46, 0.6)), url('GANTI_DENGAN_LINK_FOTO_UTAMA_ANDA'); 
-            background-size: cover; 
-            background-position: center; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            color: white; 
-            z-index: 1000; 
-            /* Logika Transisi Shutter Bulat */
-            clip-path: circle(150% at 50% 50%);
-            transition: clip-path 1.2s cubic-bezier(0.85, 0, 0.15, 1), opacity 1.2s ease;
+
+        /* Background Paper Texture Simulation */
+        .paper-texture {
+            background-image: radial-gradient(var(--rose-light) 0.5px, transparent 0.5px), radial-gradient(var(--rose-light) 0.5px, var(--rose-brown) 0.5px);
+            background-size: 4px 4px;
+            background-position: 0 0, 2px 2px;
         }
-        
-        #cover.hidden { 
-            clip-path: circle(0% at 50% 50%);
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        /* KONTEN UTAMA DENGAN EFEK REVEAL */
-        .container { 
-            max-width: 500px; 
-            margin: auto; 
-            padding: 60px 20px; 
-            opacity: 0;
-            transform: scale(0.95) translateY(20px);
-            transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        body.active .container {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-        
-        section { margin-bottom: 80px; text-align: center; }
-        h2 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 10px; color: #fff; }
-        
-        /* ORNAMEN LINIER MINIMALIS (DIVIDER) */
-        .divider { 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-        }
-        .divider::before, .divider::after {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: rgba(255,255,255,0.5);
-            margin: 0 10px;
-        }
-        .divider i { font-size: 0.8rem; opacity: 0.7; }
-        
-        /* KARTU DENGAN ORNAMEN SUDUT GEOMETRIS */
-        .card { 
+
+        /* Elegant Gold Border */
+        .gold-frame {
+            border: 2px solid var(--gold);
+            outline: 1px solid var(--gold);
+            outline-offset: -8px;
+            min-height: 100vh;
+            padding: 40px 24px;
             position: relative;
-            background: rgba(255, 255, 255, 0.06); 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px); 
-            border-radius: 15px; 
-            padding: 35px 25px; 
-            border: 1px solid rgba(255,255,255,0.15); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+        }
+
+        /* Custom Script for Names */
+        .caligraphy {
+            font-family: 'Great Vibes', cursive;
+            color: var(--gold-light);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin: 15px 0;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .serif-title {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 3px;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        /* Cover Overlay */
+        #cover {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            background-color: var(--rose-brown);
+        }
+
+        #cover.opened {
+            transform: translateY(-100%);
+        }
+
+        .btn-luxury {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 14px 36px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.4s;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-luxury:hover {
+            background: var(--gold);
+            color: var(--dark);
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* Main Container setup for Mobile First */
+        .wrapper {
+            max-width: 450px;
+            margin: 0 auto;
+            background-color: var(--rose-brown);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        section {
+            padding: 80px 20px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease-out;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Canvas Particle Style */
+        #featherCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* Photo Frame Structure */
+        .image-space {
+            width: 100%;
+            height: 280px;
+            border: 1px solid var(--gold);
+            margin: 25px 0;
+            background: rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gold-light);
+            letter-spacing: 1px;
+            position: relative;
         }
         
-        /* Logika Ornamen Sudut (Kiri Atas & Kanan Bawah) */
-        .card::before, .card::after {
+        .image-space::before {
             content: '';
             position: absolute;
-            width: 15px;
-            height: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            inset: 6px;
+            border: 1px dashed var(--gold);
+            opacity: 0.5;
         }
-        .card::before { top: 12px; left: 12px; border-right: none; border-bottom: none; }
-        .card::after { bottom: 12px; right: 12px; border-left: none; border-top: none; }
-        
-        .gallery img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.4); }
-        .btn-main { display: inline-block; background: white; color: var(--dark-rose); padding: 12px 30px; text-decoration: none; border-radius: 30px; font-weight: 600; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .btn-main:hover { background: var(--dark-rose); color: white; transform: translateY(-2px); }
-        
-        .gift-box { background: rgba(0, 0, 0, 0.1); padding: 25px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.2); }
-        #music-btn { position: fixed; bottom: 20px; right: 20px; z-index: 999; background: white; color: var(--dark-rose); border: none; border-radius: 50%; width: 45px; height: 45px; cursor: pointer; display: none; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 1.2rem; }
+
+        .card-luxury {
+            background: rgba(42, 26, 26, 0.4);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 30px 20px;
+            border-radius: 4px;
+            margin-top: 25px;
+        }
+
+        .icon-svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        #music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 101;
+            background: rgba(42, 26, 26, 0.8);
+            border: 1px solid var(--gold);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: var(--gold);
+            cursor: pointer;
+            display: none;
+        }
     </style>
 </head>
-<body>
-    <audio id="bg-music" loop>
-        <source src="URL_LINK_MP3_ANDA.mp3" type="audio/mpeg">
+<body class="paper-texture">
+
+    <!-- Audio Element untuk Murottal -->
+    <audio id="murottal" loop>
+        <source src="URL_FILE_MUROTTAL_ANDA_DI_SINI.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="cover">
-        <p style="text-transform: uppercase; letter-spacing: 3px; font-size: 0.9rem;">The Wedding of</p>
-        <h1 style="font-family: 'Playfair Display'; font-size: 3.2rem; margin: 15px 0;">Farid & Hanisa</h1>
-        <p style="letter-spacing: 1px; margin-bottom: 30px;">29 Agustus 2026</p>
-        <button class="btn-open" onclick="startExperience()">Buka Undangan</button>
+    <!-- Canvas untuk Efek Hujan Bulu Ungu-Pink Lembut -->
+    <canvas id="featherCanvas"></canvas>
+
+    <!-- Tombol Kontrol Musik Efemeral -->
+    <button id="music-control" onclick="toggleAudio()">Mute</button>
+
+    <!-- COVER SECTION -->
+    <div id="cover" class="paper-texture">
+        <div class="gold-frame" style="display:flex; flex-direction:column; justify-content:center; align-items:center; width:100%;">
+            <p class="serif-title" style="font-size: 0.8rem;">Walimatul 'Ursy</p>
+            <h1 class="caligraphy">Farid & Hanisa</h1>
+            <p style="font-size: 0.8rem; letter-spacing: 2px; max-width: 80%; margin-top:20px; line-height:1.6;">
+                "Assalamu’alaikum Warahmatullahi Wabarakatuh. Dengan memohon rahmat dan ridha Allah Azza wa Jalla, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk hadir dalam acara pernikahan kami..."
+            </p>
+            <button class="btn-luxury" onclick="unlockInvitation()">Buka Undangan</button>
+        </div>
     </div>
 
-    <button id="music-btn" onclick="toggleMusic()"><i class="fa-solid fa-music"></i></button>
+    <!-- MAIN CONTENT CONTAINER -->
+    <div class="wrapper paper-texture">
+        <div class="gold-frame">
 
-    <div class="container">
-        <section data-aos="fade-up">
-            <h2>Mempelai</h2>
-            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
-            <div class="card">
-                <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display'; margin-bottom: 5px;">M Farid Maulana</p>
-                <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 20px;">Putra dari Bpk. Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
-                <p style="font-style: italic; font-family: 'Playfair Display'; font-size: 1.5rem; color: rgba(255,255,255,0.6); margin: 10px 0;">&</p>
-                <p style="font-weight: 600; font-size: 1.4rem; font-family: 'Playfair Display'; margin-bottom: 5px;">Hanisa Awaliyah Muhidin</p>
-                <p style="font-size: 0.85rem; opacity: 0.8;">Putri dari Bpk. Engkus Muhidin & Ibu Hilasari</p>
-            </div>
-        </section>
+            <!-- AR RUM 21 SECTION -->
+            <section class="scroll-anim">
+                <p style="font-size: 1.3rem; margin-bottom: 15px; line-height: 2.2; direction: rtl; font-family: serif; color: var(--gold-light);">
+                    وَمِنْ اٰيٰتِهٖٓ اَنْ خَلَقَ لَكُمْ مِّنْ اَنْفُسِكُمْ اَزْوَاجًا لِّتَسْكُنُوْٓا اِلَيْهَا وَجَعَل...
+                </p>
+                <p style="font-size: 0.8rem; font-style: italic; line-height: 1.6; color: #E5C7C7;">
+                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..." (QS. Ar-Rum: 21)
+                </p>
+            </section>
 
-        <section data-aos="fade-up">
-            <h2>Cerita Kita</h2>
-            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
-            <div class="card">
-                <p style="font-size: 0.95rem; font-weight: 300; line-height: 1.8;">Mulai melangkah bersama dalam ikatan suci, perjalanan ini baru saja dimulai. Kami menanti kehadiran Anda untuk menyaksikan janji kami.</p>
-            </div>
-        </section>
-
-        <section data-aos="fade-up">
-            <h2>Galeri Foto</h2>
-            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
-            <div class="gallery">
-                <img src="GANTI_DENGAN_LINK_FOTO_1" alt="Foto 1">
-                <img src="GANTI_DENGAN_LINK_FOTO_2" alt="Foto 2">
-            </div>
-        </section>
-
-        <section data-aos="zoom-in">
-            <div class="card">
-                <h2>Waktu & Lokasi</h2>
-                <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
+            <!-- PROFILE MEMPELAI SECTION -->
+            <section class="scroll-anim">
+                <p class="serif-title" style="font-size: 0.9rem;">Mempelai Pria</p>
+                <h2 class="caligraphy">M Farid Maulana</h2>
+                <p style="font-size: 0.85rem; color: var(--gold-light);">Putra dari:</p>
+                <p style="font-size: 0.9rem; font-weight: 500;">Bpk. Mahfud H. Hasan & Ibu Zakia Drajat M. Sidik</p>
                 
-                <div style="margin-bottom: 30px;">
-                    <i class="fa-regular fa-clock" style="font-size: 2rem; opacity: 0.9; margin-bottom: 12px; display: block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Sabtu, 29 Agustus 2026</p>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">09:00 - 17:00 WIB<br>(Akad & Resepsi)</p>
+                <div class="image-space">[ TEMPAT FOTO FARID ]</div>
+
+                <div style="margin: 40px 0; font-family: 'Cinzel'; color: var(--gold);">Dengan</div>
+
+                <p class="serif-title" style="font-size: 0.9rem;">Mempelai Wanita</p>
+                <h2 class="caligraphy">Hanisa Awaliyah Muhidin</h2>
+                <p style="font-size: 0.85rem; color: var(--gold-light);">Putri dari:</p>
+                <p style="font-size: 0.9rem; font-weight: 500;">Bpk. Engkus Muhidin & Ibu Hilasari</p>
+                
+                <div class="image-space">[ TEMPAT FOTO HANISA ]</div>
+            </section>
+
+            <!-- AGENDA ACARA SECTION -->
+            <section class="scroll-anim">
+                <h2 class="serif-title">Rangkaian Acara</h2>
+                
+                <div class="card-luxury">
+                    <!-- Icon Waktu (SVG) -->
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6zm1-11h-2v6l5.2 3.2 1-1.6-4.2-2.6V9z"/></svg>
+                    <h3 class="serif-title" style="font-size:1.1rem; margin-bottom:10px;">Waktu Pelaksanaan</h3>
+                    <p style="font-weight: 600; color: var(--gold-light);">Sabtu, 29 Agustus 2026</p>
+                    <p style="font-size: 0.85rem; margin-top:5px;">
+                        Akad Nikah: 09:00 WIB - Selesai<br>
+                        Walimatul 'Ursy: 11:00 - 17:00 WIB
+                    </p>
                 </div>
 
-                <div style="margin-bottom: 20px;">
-                    <i class="fa-solid fa-location-dot" style="font-size: 2rem; opacity: 0.9; margin-bottom: 12px; display: block;"></i>
-                    <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px;">Masjid Nurul Iman</p>
-                    <p style="font-size: 0.9rem; opacity: 0.8;">Telukjambe, Karawang, Jawa Barat</p>
+                <div class="card-luxury">
+                    <!-- Icon Lokasi (SVG) -->
+                    <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5c-1.4 0-2.5-1.1-2.5-2.5s1.1-2.5 2.5-2.5 2.5 1.1 2.5 2.5-1.1 2.5-2.5 2.5z"/></svg>
+                    <h3 class="serif-title" style="font-size:1.1rem; margin-bottom:10px;">Lokasi Acara</h3>
+                    <p style="font-size: 0.85rem; line-height: 1.6;">
+                        <strong>Masjid Nurul Iman</strong><br>
+                        Jl. Delima Raya No.7, Telukjambe, Telukjambe Timur, Karawang, Jawa Barat 41361
+                    </p>
+                    <a href="https://share.google/I9D4RzEuEK1cMQm3j" target="_blank" class="btn-luxury" style="display:inline-block; margin-top:20px; font-size:0.75rem; text-decoration:none;">Buka Peta Digital</a>
                 </div>
-                
-                <a href="https://www.google.com/maps/search/?api=1&query=Masjid+Nurul+Iman+Teluk+Jambe+Karawang" class="btn-main">Buka Google Maps</a>
-            </div>
-        </section>
+            </section>
 
-        <section data-aos="fade-up">
-            <h2>Digital Gift</h2>
-            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
-            <div class="gift-box">
-                <p style="font-size: 0.9rem; opacity: 0.8; margin-bottom: 15px;">Tanda kasih Anda dapat dikirimkan melalui:</p>
-                <p style="font-size: 1.4rem; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px;">BSI: 1060822537</p>
-                <p style="font-size: 0.95rem; font-weight: 300;">a.n. M Farid Maulana</p>
-            </div>
-        </section>
+            <!-- ADAB WALIMAH PLACEHOLDER (Syar'i Component) -->
+            <section class="scroll-anim">
+                <h2 class="serif-title" style="font-size: 1.2rem;">Adab Walimah</h2>
+                <p style="font-size: 0.8rem; line-height: 1.8; margin-top: 15px; color: #E5C7C7;">
+                    Tanpa mengurangi rasa hormat, demi menjaga keberkahan dan ketertiban syariat, kami mengimbau para tamu untuk mengenakan busana yang menutup aurat secara sempurna dan mengikuti adab islami selama acara berlangsung.
+                </p>
+            </section>
 
-        <section data-aos="fade-up">
-            <h2>Konfirmasi Kehadiran</h2>
-            <div class="divider"><i class="fa-solid fa-circle-nodes"></i></div>
-            <a href="https://wa.me/6285155446815?text=Halo%20Farid%20%26%20Hanisa%2C%20Saya%20akan%20hadir." class="btn-main" style="background: #25D366; color: white; border: none;">WhatsApp RSVP</a>
-        </section>
+            <!-- DIGITAL GIFT SECTION -->
+            <section class="scroll-anim">
+                <h2 class="serif-title" style="font-size: 1.2rem;">E-Wallet & Bank</h2>
+                <div class="card-luxury" style="border: 1px dashed var(--gold);">
+                    <p style="font-size: 0.85rem; letter-spacing: 1px;">BANK SYARIAH INDONESIA (BSI)</p>
+                    <p id="account-num" style="font-size: 1.4rem; font-weight: 700; color: var(--gold-light); margin: 10px 0; letter-spacing: 2px;">1060822537</p>
+                    <p style="font-size: 0.9rem;">a.n. M Farid Maulana</p>
+                </div>
+            </section>
+
+        </div>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        AOS.init({ duration: 1000, once: true });
-        
-        function startExperience() {
-            // Eksekusi Efek Shutter Bulat
-            document.getElementById('cover').classList.add('hidden');
-            document.body.classList.add('active');
-            
-            const music = document.getElementById('bg-music');
-            music.play().catch(e => console.log("Audio play diblokir sistem peramban"));
-            document.getElementById('music-btn').style.display = 'block';
+        // 1. Trigger Pembukaan Undangan & Pemutaran Audio
+        function unlockInvitation() {
+            document.getElementById('cover').classList.add('opened');
+            const audio = document.getElementById('murottal');
+            audio.play().catch(error => console.log("Autoplay diblokir browser, sistem menunggu interaksi."));
+            document.getElementById('music-control').style.display = 'block';
+            initFeatherSimulation();
         }
-        
-        function toggleMusic() {
-            const music = document.getElementById('bg-music');
-            const icon = document.querySelector('#music-btn i');
-            if (music.paused) {
-                music.play();
-                icon.className = "fa-solid fa-music";
+
+        function toggleAudio() {
+            const audio = document.getElementById('murottal');
+            const btn = document.getElementById('music-control');
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "Mute";
             } else {
-                music.pause();
-                icon.className = "fa-solid fa-volume-xmark";
+                audio.pause();
+                btn.innerText = "Play";
             }
+        }
+
+        // 2. Intersection Observer untuk Efek Teks Dramatis/Interaktif saat Scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.scroll-anim').forEach(section => {
+            observer.observe(section);
+        });
+
+        // 3. Efek Sistem Partikel Hujan Bulu (Canvas 60fps Optimization)
+        function initFeatherSimulation() {
+            const canvas = document.getElementById('featherCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const featherCount = 25;
+            const feathers = [];
+
+            for (let i = 0; i < featherCount; i++) {
+                feathers.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 4 + 2,
+                    d: Math.random() * featherCount,
+                    speed: Math.random() * 1 + 0.5,
+                    sway: Math.random() * 2
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(240, 180, 190, 0.4)'; // Warna pink kelopak halus
+                ctx.beginPath();
+                for (let i = 0; i < featherCount; i++) {
+                    const f = feathers[i];
+                    ctx.moveTo(f.x, f.y);
+                    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
+                }
+                ctx.fill();
+                update();
+            }
+
+            function update() {
+                for (let i = 0; i < featherCount; i++) {
+                    const f = feathers[i];
+                    f.y += f.speed;
+                    f.x += Math.sin(f.y / 30) * f.sway;
+
+                    if (f.y > canvas.height) {
+                        feathers[i] = {
+                            x: Math.random() * canvas.width,
+                            y: -20,
+                            r: f.r,
+                            d: f.d,
+                            speed: f.speed,
+                            sway: f.sway
+                        };
+                    }
+                }
+            }
+
+            function animate() {
+                draw();
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
     </script>
 </body>
