@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan - Farid & Hanisa</title>
+    <!-- Meta Tags untuk Preview WhatsApp -->
+    <meta property="og:title" content="Undangan Pernikahan Farid & Hanisa">
+    <meta property="og:description" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.">
+    <meta property="og:image" content="https://faridmaulana470-del.github.io/Farid-Hanisa/Gambar%201.png">
+    <meta property="og:url" content="https://faridmaulana470-del.github.io/Farid-Hanisa/">
+    <meta property="og:type" content="website">
     <style>
         /* CSS Styling Dasar */
         body, html {
