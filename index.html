@@ -3,101 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan Farid & Hanisa</title>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <title>Undangan Pernikahan - Farid & Hanisa</title>
     <style>
-        :root {
-            --primary-color: #d4af37;
-            --bg-dark: #1a1a1a;
-            --text-light: #ffffff;
-            --text-dark: #333333;
+        /* CSS Styling Dasar */
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #f6efe9; /* Warna latar belakang senada dengan gambar */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        /* Container utama dibatasi lebarnya agar menyerupai tampilan HP/Buku */
+        #invitation-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.15);
+            display: none; /* Disembunyikan sampai tombol ditekan */
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Montserrat', sans-serif; background-color: #f9f9f9; color: var(--text-dark); overflow: hidden; }
+        /* Styling untuk Gambar */
+        .page-img {
+            width: 100%;
+            display: block;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
 
-        /* --- COVER OVERLAY --- */
-        #cover {
+        .page-img.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Halaman Sampul Depan (Overlay) */
+        #cover-overlay {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* Memanggil file foto-cover.png yang Anda upload */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('foto-cover.png') no-repeat center center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: var(--text-light); z-index: 9999; text-align: center; transition: transform 1s ease-in-out; padding: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('Gambar 1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
         }
 
-        #cover.opened { transform: translateY(-100%); }
-        .cover-title { font-family: 'Great Vibes', cursive; font-size: 3.5rem; color: var(--primary-color); margin-bottom: 10px; }
-        .guest-box { background: rgba(255, 255, 255, 0.1); padding: 15px 25px; border-radius: 8px; backdrop-filter: blur(5px); margin: 20px 0; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .btn-open { background-color: var(--primary-color); color: white; border: none; padding: 12px 30px; font-size: 1rem; font-weight: 600; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; }
+        /* Latar belakang gelap agar teks dan tombol terbaca */
+        .overlay-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
 
-        /* --- MAIN CONTENT & MEMPELAI --- */
-        .section { padding: 60px 20px; text-align: center; max-width: 800px; margin: 0 auto; }
-        .mempelai-container { display: flex; justify-content: space-around; flex-wrap: wrap; margin: 40px 0; gap: 20px; }
-        .mempelai-card { flex: 1; min-width: 250px; padding: 20px; }
-        .mempelai-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary-color); margin-bottom: 15px; }
-        .mempelai-title { font-family: 'Great Vibes', cursive; font-size: 2.5rem; color: var(--primary-color); margin: 10px 0; }
+        .cover-content {
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+        }
 
-        /* --- AUDIO CONTROLLER --- */
-        #audio-control { position: fixed; bottom: 20px; right: 20px; background: var(--primary-color); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; z-index: 1000; }
+        .cover-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .cover-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-open {
+            background-color: #a87b64;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-open:hover {
+            background-color: #8a624d;
+        }
+
+        /* Tombol Kontrol Musik */
+        #music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(168, 123, 100, 0.9);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Audio Player (Ganti src dengan nama file musik Anda) -->
     <audio id="bg-music" loop>
-        <source src="audio-undangan.mp3" type="audio/mpeg">
+        <source src="musik.mp3" type="audio/mpeg">
     </audio>
 
-    <div id="audio-control" onclick="toggleMusic()"><i id="audio-icon" class="fas fa-music"></i></div>
-
-    <div id="cover">
-        <p>UNDANGAN PERNIKAHAN</p>
-        <h1 class="cover-title">Farid & Hanisa</h1>
-        <div class="guest-box">
-            <p style="font-size: 0.9rem; letter-spacing: 1px;">KEPADA YTH.</p>
-            <h2 id="guest-name">-</h2>
+    <!-- Halaman Pembuka -->
+    <div id="cover-overlay">
+        <div class="overlay-bg"></div>
+        <div class="cover-content">
+            <h1>Farid & Hanisa</h1>
+            <p>29 Agustus 2026</p>
+            <button class="btn-open" onclick="openInvitation()">Buka Undangan</button>
         </div>
-        <button class="btn-open" onclick="openInvitation()"><i class="fas fa-envelope-open-text"></i> Buka Undangan</button>
     </div>
 
-    <main>
-        <section class="section">
-            <p style="font-style: italic; margin-bottom: 20px;">"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu isteri-isteri dari jenismu sendiri..."</p>
-            
-            <div class="mempelai-container">
-                <div class="mempelai-card">
-                    <img src="mempelai-pria.png" alt="Farid" class="mempelai-img">
-                    <h2 class="mempelai-title">Farid</h2>
-                    <p>Putra dari Bpk. X & Ibu Y</p>
-                </div>
-                <div class="mempelai-card">
-                    <img src="mempelai-wanita.png" alt="Hanisa" class="mempelai-img">
-                    <h2 class="mempelai-title">Hanisa</h2>
-                    <p>Putri dari Bpk. A & Ibu B</p>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- Kontainer Gambar Undangan -->
+    <div id="invitation-container">
+        <img src="Gambar 1.png" alt="Halaman 1" class="page-img">
+        <img src="Gambar 2.png" alt="Halaman 2" class="page-img">
+        <img src="Gambar 3.png" alt="Halaman 3" class="page-img">
+        <img src="Gambar 4.png" alt="Halaman 4" class="page-img">
+        <img src="Gambar 5.png" alt="Halaman 5" class="page-img">
+        <img src="Gambar 6.png" alt="Halaman 6" class="page-img">
+        <img src="Gambar 7.png" alt="Halaman 7" class="page-img">
+        <img src="Gambar 8.png" alt="Halaman 8" class="page-img">
+    </div>
+
+    <!-- Tombol Musik -->
+    <div id="music-control" onclick="toggleMusic()">🎵</div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const guest = urlParams.get('to');
-        document.getElementById('guest-name').innerText = guest ? guest.replace(/\+/g, ' ') : "Tamu Undangan";
-
-        const music = document.getElementById('bg-music');
+        // Fungsi untuk membuka undangan, menghilangkan cover, dan memutar musik
         function openInvitation() {
-            document.getElementById('cover').classList.add('opened');
-            document.body.style.overflow = 'auto';
-            music.play().catch(err => console.log("Autoplay blocked"));
+            document.getElementById('cover-overlay').style.display = 'none';
+            document.getElementById('invitation-container').style.display = 'block';
+            document.getElementById('music-control').style.display = 'flex';
+            
+            let music = document.getElementById('bg-music');
+            music.play().catch(error => {
+                console.log("Browser memblokir pemutaran otomatis:", error);
+            });
+            
+            // Cek elemen yang terlihat saat pertama dibuka
+            checkVisibility();
         }
 
+        // Fungsi untuk play/pause musik
         function toggleMusic() {
-            const icon = document.getElementById('audio-icon');
-            if (music.paused) { music.play(); icon.className = "fas fa-music"; } 
-            else { music.pause(); icon.className = "fas fa-pause"; }
+            let music = document.getElementById('bg-music');
+            let btn = document.getElementById('music-control');
+            if (music.paused) {
+                music.play();
+                btn.style.opacity = "1";
+            } else {
+                music.pause();
+                btn.style.opacity = "0.6";
+            }
         }
+
+        // Skrip untuk animasi fade-in saat di-scroll
+        const images = document.querySelectorAll('.page-img');
+        
+        function checkVisibility() {
+            const triggerBottom = window.innerHeight * 0.85; // Gambar muncul saat mencapai 85% layar
+            images.forEach(img => {
+                const imgTop = img.getBoundingClientRect().top;
+                if(imgTop < triggerBottom) {
+                    img.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkVisibility);
     </script>
 </body>
 </html>
